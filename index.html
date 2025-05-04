@@ -137,7 +137,21 @@
          .flame-8-trv { bottom: var(--flame-bottom-8); left: calc(var(--pos-8-right-x) + var(--candle-width) / 2); }
 
         /* --- Name on Cake Style --- */
-        .cake-name { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); font-family: 'Pacifico', cursive; font-size: 1.7rem; color: white; text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.2), 2px 2px 5px rgba(236, 72, 153, 0.5); z-index: 7; width: 100%; text-align: center; pointer-events: none; }
+        .cake-name {
+            position: absolute;
+            /* ** ADJUSTED this value from 30px to move name lower ** */
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Pacifico', cursive;
+            font-size: 1.7rem;
+            color: white;
+            text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.2), 2px 2px 5px rgba(236, 72, 153, 0.5);
+            z-index: 7;
+            width: 100%;
+            text-align: center;
+            pointer-events: none;
+        }
 
         /* --- Date on Cake Style --- */
          .cake-date {
@@ -208,6 +222,7 @@
             <div class="flex justify-center mb-12 md:mb-16">
                  <div class="cake-container">
                      <div class="cake-plate"></div>
+                     <!-- The name "Tlinh" is inside this div, styled by .cake-name CSS -->
                      <div class="cake-layer-1" id="layer1"><div class="cake-name">Tlinh</div></div>
                      <div class="cake-layer-2" id="layer2"></div>
                      <!-- Date "12.05" now has improved text-shadow from CSS -->
