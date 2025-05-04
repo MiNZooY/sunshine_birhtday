@@ -80,91 +80,34 @@
         .candle {
             position: absolute;
             width: 10px;
-            /* ** UPDATED Candle Color ** */
-            background-color: #FEF9E7; /* Warmer off-white */
-            border: 1px solid #E59866; /* Warmer brown outline */
-            border-bottom: none;
-            border-radius: 2px 2px 0 0;
-            z-index: 10;
-            transform-origin: bottom center;
+            background-color: #FEF9E7; border: 1px solid #E59866;
+            border-bottom: none; border-radius: 2px 2px 0 0; z-index: 10; transform-origin: bottom center;
         }
-        .candle.horizontal {
-             /* ** UPDATED Border Color ** */
-             border-radius: 2px; border: 1px solid #E59866;
-         }
-
+        .candle.horizontal { border-radius: 2px; border: 1px solid #E59866; }
         .flame { position: absolute; width: 18px; height: 27px; background: radial-gradient(circle, #ffffff, #f59e0b); border-radius: 50% 50% 20% 20%; box-shadow: 0 0 10px #f59e0b, 0 0 20px #f59e0b; opacity: 0; z-index: 11; transform-origin: bottom center; transition: opacity 0.3s ease; transform: translateX(-50%); }
         .flame.active { opacity: 1; animation: flicker 1s infinite alternate; }
 
-        /* --- Positioning for "18" Candles (Blocky 7-Segment) --- */
-        :root {
-            /* Core dimensions */
-            --candle-base-bottom: 183px; /* top of layer 3 */
-            --candle-width: 10px; /* Thickness */
-            --segment-height: 15px; /* Height of a single segment part */
-            --segment-v-height: 15px; /* Explicit height for vertical parts */
-            --segment-h-width: 32px; /* Width of horizontal parts */
-            --candle-total-height: calc(3 * var(--segment-height)); /* 45px for '1' */
-            /* Spacing */
-            --digit-spacing: 15px;
-            /* Calculated centering */
-            --total-width-18: calc(var(--candle-width) + var(--digit-spacing) + var(--segment-h-width));
-            --start-left-18: calc(50% - var(--total-width-18) / 2);
-            /* Positions for '1' */
-            --pos-1-x: var(--start-left-18);
-            /* Positions for '8' */
-            --pos-8-center-x: calc(var(--start-left-18) + var(--candle-width) + var(--digit-spacing) + var(--segment-h-width) / 2);
-            --pos-8-left-x: calc(var(--pos-8-center-x) - var(--segment-h-width) / 2);
-            --pos-8-right-x: calc(var(--pos-8-center-x) + var(--segment-h-width) / 2 - var(--candle-width));
-            /* Flame Positions */
-            --flame-bottom-1: calc(var(--candle-base-bottom) + var(--candle-total-height));
-            --flame-bottom-8: calc(var(--candle-base-bottom) + 2 * var(--segment-height));
-        }
-         /* Candle "1" */
+        /* --- Positioning for "18" Candles --- */
+        :root { --candle-base-bottom: 183px; --candle-width: 10px; --segment-height: 15px; --segment-v-height: 15px; --segment-h-width: 32px; --candle-total-height: calc(3 * var(--segment-height)); --digit-spacing: 15px; --total-width-18: calc(var(--candle-width) + var(--digit-spacing) + var(--segment-h-width)); --start-left-18: calc(50% - var(--total-width-18) / 2); --pos-1-x: var(--start-left-18); --pos-8-center-x: calc(var(--start-left-18) + var(--candle-width) + var(--digit-spacing) + var(--segment-h-width) / 2); --pos-8-left-x: calc(var(--pos-8-center-x) - var(--segment-h-width) / 2); --pos-8-right-x: calc(var(--pos-8-center-x) + var(--segment-h-width) / 2 - var(--candle-width)); --flame-bottom-1: calc(var(--candle-base-bottom) + var(--candle-total-height)); --flame-bottom-8: calc(var(--candle-base-bottom) + 2 * var(--segment-height)); }
          .candle-1 { bottom: var(--candle-base-bottom); left: var(--pos-1-x); height: var(--candle-total-height); width: var(--candle-width); }
          .flame-1 { bottom: var(--flame-bottom-1); left: calc(var(--pos-1-x) + var(--candle-width) / 2); }
-         /* Candles "8" - Horizontals */
-         .candle-8-th { bottom: calc(var(--candle-base-bottom) + 2 * var(--segment-height)); left: var(--pos-8-center-x); width: var(--segment-h-width); height: var(--candle-width); transform: translateX(-50%); border-radius: 2px; border: 1px solid #E59866; /* Updated border */ }
-         .candle-8-mh { bottom: calc(var(--candle-base-bottom) + var(--segment-height)); left: var(--pos-8-center-x); width: var(--segment-h-width); height: var(--candle-width); transform: translateX(-50%); border-radius: 2px; border: 1px solid #E59866; /* Updated border */ }
-         .candle-8-bh { bottom: var(--candle-base-bottom); left: var(--pos-8-center-x); width: var(--segment-h-width); height: var(--candle-width); transform: translateX(-50%); border-radius: 2px; border: 1px solid #E59866; /* Updated border */ }
-         /* Candles "8" - Verticals */
+         .candle-8-th { bottom: calc(var(--candle-base-bottom) + 2 * var(--segment-height)); left: var(--pos-8-center-x); width: var(--segment-h-width); height: var(--candle-width); transform: translateX(-50%); border-radius: 2px; border: 1px solid #E59866; }
+         .candle-8-mh { bottom: calc(var(--candle-base-bottom) + var(--segment-height)); left: var(--pos-8-center-x); width: var(--segment-h-width); height: var(--candle-width); transform: translateX(-50%); border-radius: 2px; border: 1px solid #E59866; }
+         .candle-8-bh { bottom: var(--candle-base-bottom); left: var(--pos-8-center-x); width: var(--segment-h-width); height: var(--candle-width); transform: translateX(-50%); border-radius: 2px; border: 1px solid #E59866; }
          .candle-8-tlv { bottom: calc(var(--candle-base-bottom) + var(--segment-height)); left: var(--pos-8-left-x); height: var(--segment-v-height); width: var(--candle-width); }
          .candle-8-trv { bottom: calc(var(--candle-base-bottom) + var(--segment-height)); left: var(--pos-8-right-x); height: var(--segment-v-height); width: var(--candle-width); }
          .candle-8-blv { bottom: var(--candle-base-bottom); left: var(--pos-8-left-x); height: var(--segment-v-height); width: var(--candle-width); border-radius: 0 0 2px 2px; border-top: none; }
          .candle-8-brv { bottom: var(--candle-base-bottom); left: var(--pos-8-right-x); height: var(--segment-v-height); width: var(--candle-width); border-radius: 0 0 2px 2px; border-top: none; }
-         /* Flames for '8' */
          .flame-8-tlv { bottom: var(--flame-bottom-8); left: calc(var(--pos-8-left-x) + var(--candle-width) / 2); }
          .flame-8-trv { bottom: var(--flame-bottom-8); left: calc(var(--pos-8-right-x) + var(--candle-width) / 2); }
 
         /* --- Name on Cake Style --- */
-        .cake-name {
-            position: absolute;
-            /* ** ADJUSTED this value from 30px to move name lower ** */
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-family: 'Pacifico', cursive;
-            font-size: 1.7rem;
-            color: white;
-            text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.2), 2px 2px 5px rgba(236, 72, 153, 0.5);
-            z-index: 7;
-            width: 100%;
-            text-align: center;
-            pointer-events: none;
-        }
-
+        .cake-name { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); font-family: 'Pacifico', cursive; font-size: 1.7rem; color: white; text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.2), 2px 2px 5px rgba(236, 72, 153, 0.5); z-index: 7; width: 100%; text-align: center; pointer-events: none; }
         /* --- Date on Cake Style --- */
-         .cake-date {
-             position: absolute; bottom: 110px; left: 50%; transform: translate(-50%, 50%);
-             font-size: 1.2rem; font-weight: bold; color: white;
-             /* ** UPDATED Text Shadow for Visibility ** */
-             text-shadow: 1px 1px 0px #854d0e, 2px 2px 4px rgba(0,0,0,0.4); /* Dark brown outline + softer shadow */
-             z-index: 15; pointer-events: none; white-space: nowrap;
-         }
-
+        .cake-date { position: absolute; bottom: 110px; left: 50%; transform: translate(-50%, 50%); font-size: 1.2rem; font-weight: bold; color: white; text-shadow: 1px 1px 0px #854d0e, 2px 2px 4px rgba(0,0,0,0.4); z-index: 15; pointer-events: none; white-space: nowrap; }
          /* Audio Player Styling */
-         #birthday-song-audio { /* Hidden - we use custom controls */ display: none; }
-         .audio-controls button i { margin-right: 0.5rem; /* Space between icon and text */ }
+        #birthday-song-audio { display: none; }
+        .audio-controls button i { margin-right: 0.5rem; }
 
     </style>
 </head>
@@ -188,32 +131,18 @@
         <div id="step-audio" class="step">
             <h3 class="text-3xl md:text-4xl font-semibold text-green-800 mb-6 text-center">A Special Song Just For You! 🎵</h3>
             <p class="text-lg text-green-600 mb-8 text-center">Use the buttons below to play the song.</p>
-
-            <!-- Custom Audio Controls -->
             <div class="text-center mb-8 audio-controls">
-                 <button id="play-btn" class="nav-button mx-1">
-                     <i class="fas fa-play"></i>Play
-                 </button>
-                 <button id="pause-btn" class="nav-button mx-1" disabled>
-                     <i class="fas fa-pause"></i>Pause
-                 </button>
-                 <button id="repeat-btn" class="nav-button mx-1">
-                     <i class="fas fa-redo"></i>Repeat
-                 </button>
+                 <button id="play-btn" class="nav-button mx-1"> <i class="fas fa-play"></i>Play </button>
+                 <button id="pause-btn" class="nav-button mx-1" disabled> <i class="fas fa-pause"></i>Pause </button>
+                 <button id="repeat-btn" class="nav-button mx-1"> <i class="fas fa-redo"></i>Repeat </button>
             </div>
-
-            <!-- Hidden Audio Element -->
             <audio id="birthday-song-audio" preload="metadata">
-                 <!-- IMPORTANT: Replace src="" with your audio source -->
-                 <source src="the_nights.mp3" type="audio/mpeg">
-                 Your browser does not support the audio element.
-             </audio>
-
-             <!-- Navigation buttons -->
-             <div class="text-center">
+                 <source src="the_nights.mp3" type="audio/mpeg"> Your browser does not support the audio element.
+            </audio>
+            <div class="text-center">
                  <button class="nav-button" style="background-image: linear-gradient(to right, #a7f3d0, #6ee7b7);" onclick="showStep('step-welcome')"><i class="fas fa-arrow-left mr-2"></i> Back</button>
                  <button class="nav-button ml-4" onclick="showStep('step-cake')">See Your Cake! <i class="fas fa-arrow-right ml-2"></i></button>
-             </div>
+            </div>
         </div>
 
         <!-- STEP 3: CAKE -->
@@ -222,16 +151,13 @@
             <div class="flex justify-center mb-12 md:mb-16">
                  <div class="cake-container">
                      <div class="cake-plate"></div>
-                     <!-- The name "Tlinh" is inside this div, styled by .cake-name CSS -->
                      <div class="cake-layer-1" id="layer1"><div class="cake-name">Tlinh</div></div>
                      <div class="cake-layer-2" id="layer2"></div>
-                     <!-- Date "12.05" now has improved text-shadow from CSS -->
                      <div class="cake-date">12.05</div>
                      <div class="cake-layer-3" id="layer3"></div>
                      <div class="cake-decoration" style="bottom: 18px; left: 30%;"><div class="cake-drip" style="background: #ec4899;"></div></div>
                      <div class="cake-decoration" style="bottom: 18px; left: 50%;"><div class="cake-drip" style="background: #f59e0b; height: 22px;"></div></div>
                      <div class="cake-decoration" style="bottom: 18px; left: 70%;"><div class="cake-drip" style="background: #4ade80;"></div></div>
-                     <!-- Candles (Colors updated via CSS) -->
                      <div class="candle candle-1"></div> <div class="flame flame-1"></div>
                      <div class="candle candle-8-th"></div> <div class="candle candle-8-mh"></div> <div class="candle candle-8-bh"></div>
                      <div class="candle candle-8-tlv"></div> <div class="candle candle-8-trv"></div>
@@ -247,22 +173,65 @@
 
         <!-- STEP 4: MESSAGE -->
         <div id="step-message" class="step">
-             <div class="max-w-full md:max-w-2xl mx-auto bg-white bg-opacity-90 rounded-xl p-6 md:p-8 shadow-lg mb-8 md:mb-12 text-center border-2 border-green-200"> <h3 class="text-2xl md:text-3xl font-semibold text-green-800 mb-4 md:mb-6">Dear Tlinh,</h3> <p class="text-green-700 mb-4 md:mb-6 text-base md:text-lg">Hope you liked the song and the cake for your 18th birthday on <span class="date-highlight">May 12th</span>! Now it's time for 18 special wishes... But first, some memories.</p> <p class="text-green-700 font-medium text-lg md:text-xl">Wishing you a fantastic year! May <span class="date-highlight">12.05</span> be just the start! 🎉</p> </div>
+             <div class="max-w-full md:max-w-2xl mx-auto bg-white bg-opacity-90 rounded-xl p-6 md:p-8 shadow-lg mb-8 md:mb-12 text-center border-2 border-green-200"> <h3 class="text-2xl md:text-3xl font-semibold text-green-800 mb-4 md:mb-6">Dear Tlinh,</h3> <p class="text-green-700 mb-4 md:mb-6 text-base md:text-lg">Hope you liked the song and the cake for your 18th birthday on <span class="date-highlight">May 12th</span>! Now it's time for 18 special wishes... But first, let's see a video message.</p> <p class="text-green-700 font-medium text-lg md:text-xl">Wishing you a fantastic year! May <span class="date-highlight">12.05</span> be just the start! 🎉</p> </div>
              <div class="bg-white bg-opacity-80 rounded-xl p-4 sm:p-6 max-w-xs sm:max-w-sm md:max-w-md mx-auto shadow-lg text-center mb-12 md:mb-16"> <h3 class="text-xl sm:text-2xl font-semibold text-green-800 mb-4">Celebrating <span class="date-highlight">May 12th</span>!</h3> <div class="flex justify-center space-x-2 sm:space-x-4"> <div class="bg-green-100 rounded-lg p-2 sm:p-3 w-14 sm:w-16"><div class="text-xl sm:text-2xl font-bold text-green-800">18</div><div class="text-xs text-green-600">YEARS</div></div> <div class="bg-green-100 rounded-lg p-2 sm:p-3 w-14 sm:w-16"><div class="text-xl sm:text-2xl font-bold text-green-800">12</div><div class="text-xs text-green-600">MAY</div></div> <div class="bg-green-100 rounded-lg p-2 sm:p-3 w-14 sm:w-16"><div class="text-xl sm:text-2xl font-bold text-green-800">💚</div><div class="text-xs text-green-600">LOVE</div></div> </div> <p class="mt-4 text-sm sm:text-base text-green-700">Your special date: <span class="font-bold date-highlight">May 12th</span></p> </div>
-             <div class="text-center"> <button class="nav-button" style="background-image: linear-gradient(to right, #a7f3d0, #6ee7b7);" onclick="showStep('step-cake')"><i class="fas fa-arrow-left mr-2"></i> Back to Cake</button> <button class="nav-button ml-4" onclick="showStep('step-gallery')">See Memories <i class="fas fa-arrow-right ml-2"></i></button> </div>
+             <div class="text-center"> <button class="nav-button" style="background-image: linear-gradient(to right, #a7f3d0, #6ee7b7);" onclick="showStep('step-cake')"><i class="fas fa-arrow-left mr-2"></i> Back to Cake</button> <button class="nav-button ml-4" onclick="showStep('step-gallery')">See Video <i class="fas fa-arrow-right ml-2"></i></button> </div>
         </div>
 
-        <!-- STEP 5: GALLERY -->
+        <!-- STEP 5: VIDEO MEMORY (Using aspect-video) -->
         <div id="step-gallery" class="step">
-             <section class="mb-16 md:mb-20"> <h3 class="text-3xl md:text-4xl font-semibold text-green-800 mb-6 text-center">A Few Memories 📸</h3> <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 max-w-4xl mx-auto"> <div class="bg-white bg-opacity-90 rounded-lg shadow-lg overflow-hidden"><img src="https://via.placeholder.com/400x300/a7f3d0/166534?text=Photo+1+(Replace!)" alt="Memory 1" class="w-full h-48 object-cover"><p class="text-sm text-gray-700 p-3 text-center">Caption 1!</p></div> <div class="bg-white bg-opacity-90 rounded-lg shadow-lg overflow-hidden"><img src="https://via.placeholder.com/400x300/fbcfe8/ec4899?text=Photo+2+(Replace!)" alt="Memory 2" class="w-full h-48 object-cover"><p class="text-sm text-gray-700 p-3 text-center">Caption 2!</p></div> <div class="bg-white bg-opacity-90 rounded-lg shadow-lg overflow-hidden"><img src="https://via.placeholder.com/400x300/fef08a/f59e0b?text=Photo+3+(Replace!)" alt="Memory 3" class="w-full h-48 object-cover"><p class="text-sm text-gray-700 p-3 text-center">Caption 3!</p></div> </div> </section>
-             <div class="text-center"> <button class="nav-button" style="background-image: linear-gradient(to right, #a7f3d0, #6ee7b7);" onclick="showStep('step-message')"><i class="fas fa-arrow-left mr-2"></i> Back</button> <button class="nav-button ml-4" onclick="showStep('step-wishes')">Open Wishes <i class="fas fa-arrow-right ml-2"></i></button> </div>
+             <section class="mb-12 md:mb-16">
+                 <h3 class="text-3xl md:text-4xl font-semibold text-green-800 mb-6 md:mb-8 text-center">A Special Video Memory 🎬</h3>
+                 <p class="text-lg text-green-600 mb-8 text-center">Press play to watch a special message or relive some moments!</p>
+
+                 <!-- Video Player -->
+                 <div class="max-w-2xl mx-auto">
+                     <video controls class="w-full aspect-video bg-black rounded-lg shadow-lg border-2 border-green-200" preload="metadata">
+                          <!-- IMPORTANT: Replace src with the actual path to YOUR video file -->
+                          <source src="path/to/your_birthday_video.mp4" type="video/mp4">
+
+                          <!-- Optional: Add other formats for better browser compatibility -->
+                          <!-- <source src="path/to/your_birthday_video.webm" type="video/webm"> -->
+                          <!-- <source src="path/to/your_birthday_video.ogg" type="video/ogg"> -->
+
+                          <!-- Fallback message if browser doesn't support video -->
+                          Sorry, your browser doesn't support embedded videos. Maybe it's time for an update?
+                      </video>
+                 </div>
+             </section>
+
+             <!-- Navigation Buttons -->
+             <div class="text-center">
+                 <button class="nav-button" style="background-image: linear-gradient(to right, #a7f3d0, #6ee7b7);" onclick="showStep('step-message')"><i class="fas fa-arrow-left mr-2"></i> Back</button>
+                 <button class="nav-button ml-4" onclick="showStep('step-wishes')">Open Wishes <i class="fas fa-arrow-right ml-2"></i></button>
+             </div>
         </div>
 
-        <!-- STEP 6: WISHES -->
+        <!-- STEP 6: WISHES (Mobile Optimized Layout) -->
          <div id="step-wishes" class="step">
              <div class="text-center mb-10 md:mb-12"><h3 class="text-3xl md:text-4xl font-semibold text-green-800 mb-4"><i class="fas fa-heart text-pink-500"></i> Heart Full of Wishes! <i class="fas fa-heart text-pink-500"></i></h3><p class="text-lg text-green-600">Click each envelope...</p></div>
-             <div class="heart-container w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-[700px] xl:max-w-[850px] h-[450px] sm:h-[500px] md:h-[550px] mb-16 md:mb-20 mx-auto"> <div class="heart-center"><div class="bg-white p-1 rounded-full w-28 h-28 sm:w-32 sm:h-32 md:w-40 md:h-40 lg:w-44 lg:h-44 xl:w-[200px] xl:h-[200px]"><img src="https://static.vecteezy.com/system/resources/previews/005/562/361/non_2x/cute-and-kawaii-girl-with-pink-hoodie-bunny-and-cute-rabbit-cartoon-manga-chibi-character-vector.jpg" alt="Tlinh" class="profile-pic w-full h-full rounded-full"></div></div> <!-- Envelopes 1-18 --> <div class="envelope-heart w-12 h-8 sm:w-16 sm:h-10 md:w-20 md:h-12" style="top: 8%; left: 35%; z-index: 20;" onclick="openWish(1)"> <div class="envelope w-full h-full relative"><div class="envelope-inner"><div class="envelope-front"><div class="env-top"></div><div class="env-bottom"></div><div class="env-left"></div><div class="env-right"></div><div class="env-icon text-base sm:text-lg md:text-xl"><i class="fas fa-heart"></i></div></div><div class="envelope-back"><p class="text-green-700 text-[8px] sm:text-[10px] md:text-xs font-semibold">Open</p></div></div></div> </div> <div class="envelope-heart w-12 h-8 sm:w-16 sm:h-10 md:w-20 md:h-12" style="top: 8%; left: 65%; transform: translateX(-100%); z-index: 20;" onclick="openWish(2)"> <div class="envelope w-full h-full relative"><div class="envelope-inner"><div class="envelope-front"><div class="env-top"></div><div class="env-bottom"></div><div class="env-left"></div><div class="env-right"></div><div class="env-icon text-base sm:text-lg md:text-xl"><i class="fas fa-heart"></i></div></div><div class="envelope-back"><p class="text-green-700 text-[8px] sm:text-[10px] md:text-xs font-semibold">Open</p></div></div></div> </div> <div class="envelope-heart w-12 h-8 sm:w-16 sm:h-10 md:w-20 md:h-12" style="top: 18%; left: 20%; z-index: 20;" onclick="openWish(3)"> <div class="envelope w-full h-full relative"><div class="envelope-inner"><div class="envelope-front"><div class="env-top"></div><div class="env-bottom"></div><div class="env-left"></div><div class="env-right"></div><div class="env-icon text-base sm:text-lg md:text-xl"><i class="fas fa-heart"></i></div></div><div class="envelope-back"><p class="text-green-700 text-[8px] sm:text-[10px] md:text-xs font-semibold">Open</p></div></div></div> </div> <div class="envelope-heart w-12 h-8 sm:w-16 sm:h-10 md:w-20 md:h-12" style="top: 18%; left: 80%; transform: translateX(-100%); z-index: 20;" onclick="openWish(4)"> <div class="envelope w-full h-full relative"><div class="envelope-inner"><div class="envelope-front"><div class="env-top"></div><div class="env-bottom"></div><div class="env-left"></div><div class="env-right"></div><div class="env-icon text-base sm:text-lg md:text-xl"><i class="fas fa-heart"></i></div></div><div class="envelope-back"><p class="text-green-700 text-[8px] sm:text-[10px] md:text-xs font-semibold">Open</p></div></div></div> </div> <div class="envelope-heart w-12 h-8 sm:w-16 sm:h-10 md:w-20 md:h-12" style="top: 30%; left: 10%; z-index: 20;" onclick="openWish(5)"> <div class="envelope w-full h-full relative"><div class="envelope-inner"><div class="envelope-front"><div class="env-top"></div><div class="env-bottom"></div><div class="env-left"></div><div class="env-right"></div><div class="env-icon text-base sm:text-lg md:text-xl"><i class="fas fa-heart"></i></div></div><div class="envelope-back"><p class="text-green-700 text-[8px] sm:text-[10px] md:text-xs font-semibold">Open</p></div></div></div> </div> <div class="envelope-heart w-12 h-8 sm:w-16 sm:h-10 md:w-20 md:h-12" style="top: 30%; left: 90%; transform: translateX(-100%); z-index: 20;" onclick="openWish(6)"> <div class="envelope w-full h-full relative"><div class="envelope-inner"><div class="envelope-front"><div class="env-top"></div><div class="env-bottom"></div><div class="env-left"></div><div class="env-right"></div><div class="env-icon text-base sm:text-lg md:text-xl"><i class="fas fa-heart"></i></div></div><div class="envelope-back"><p class="text-green-700 text-[8px] sm:text-[10px] md:text-xs font-semibold">Open</p></div></div></div> </div> <div class="envelope-heart w-12 h-8 sm:w-16 sm:h-10 md:w-20 md:h-12" style="top: 45%; left: 5%; z-index: 20;" onclick="openWish(7)"> <div class="envelope w-full h-full relative"><div class="envelope-inner"><div class="envelope-front"><div class="env-top"></div><div class="env-bottom"></div><div class="env-left"></div><div class="env-right"></div><div class="env-icon text-base sm:text-lg md:text-xl"><i class="fas fa-heart"></i></div></div><div class="envelope-back"><p class="text-green-700 text-[8px] sm:text-[10px] md:text-xs font-semibold">Open</p></div></div></div> </div> <div class="envelope-heart w-12 h-8 sm:w-16 sm:h-10 md:w-20 md:h-12" style="top: 45%; left: 95%; transform: translateX(-100%); z-index: 20;" onclick="openWish(8)"> <div class="envelope w-full h-full relative"><div class="envelope-inner"><div class="envelope-front"><div class="env-top"></div><div class="env-bottom"></div><div class="env-left"></div><div class="env-right"></div><div class="env-icon text-base sm:text-lg md:text-xl"><i class="fas fa-heart"></i></div></div><div class="envelope-back"><p class="text-green-700 text-[8px] sm:text-[10px] md:text-xs font-semibold">Open</p></div></div></div> </div> <div class="envelope-heart w-12 h-8 sm:w-16 sm:h-10 md:w-20 md:h-12" style="top: 60%; left: 10%; z-index: 20;" onclick="openWish(9)"> <div class="envelope w-full h-full relative"><div class="envelope-inner"><div class="envelope-front"><div class="env-top"></div><div class="env-bottom"></div><div class="env-left"></div><div class="env-right"></div><div class="env-icon text-base sm:text-lg md:text-xl"><i class="fas fa-heart"></i></div></div><div class="envelope-back"><p class="text-green-700 text-[8px] sm:text-[10px] md:text-xs font-semibold">Open</p></div></div></div> </div> <div class="envelope-heart w-12 h-8 sm:w-16 sm:h-10 md:w-20 md:h-12" style="top: 60%; left: 90%; transform: translateX(-100%); z-index: 20;" onclick="openWish(10)"> <div class="envelope w-full h-full relative"><div class="envelope-inner"><div class="envelope-front"><div class="env-top"></div><div class="env-bottom"></div><div class="env-left"></div><div class="env-right"></div><div class="env-icon text-base sm:text-lg md:text-xl"><i class="fas fa-heart"></i></div></div><div class="envelope-back"><p class="text-green-700 text-[8px] sm:text-[10px] md:text-xs font-semibold">Open</p></div></div></div> </div> <div class="envelope-heart w-12 h-8 sm:w-16 sm:h-10 md:w-20 md:h-12" style="top: 72%; left: 20%; z-index: 20;" onclick="openWish(11)"> <div class="envelope w-full h-full relative"><div class="envelope-inner"><div class="envelope-front"><div class="env-top"></div><div class="env-bottom"></div><div class="env-left"></div><div class="env-right"></div><div class="env-icon text-base sm:text-lg md:text-xl"><i class="fas fa-heart"></i></div></div><div class="envelope-back"><p class="text-green-700 text-[8px] sm:text-[10px] md:text-xs font-semibold">Open</p></div></div></div> </div> <div class="envelope-heart w-12 h-8 sm:w-16 sm:h-10 md:w-20 md:h-12" style="top: 72%; left: 80%; transform: translateX(-100%); z-index: 20;" onclick="openWish(12)"> <div class="envelope w-full h-full relative"><div class="envelope-inner"><div class="envelope-front"><div class="env-top"></div><div class="env-bottom"></div><div class="env-left"></div><div class="env-right"></div><div class="env-icon text-base sm:text-lg md:text-xl"><i class="fas fa-heart"></i></div></div><div class="envelope-back"><p class="text-green-700 text-[8px] sm:text-[10px] md:text-xs font-semibold">Open</p></div></div></div> </div> <div class="envelope-heart w-12 h-8 sm:w-16 sm:h-10 md:w-20 md:h-12" style="top: 83%; left: 30%; z-index: 20;" onclick="openWish(13)"> <div class="envelope w-full h-full relative"><div class="envelope-inner"><div class="envelope-front"><div class="env-top"></div><div class="env-bottom"></div><div class="env-left"></div><div class="env-right"></div><div class="env-icon text-base sm:text-lg md:text-xl"><i class="fas fa-heart"></i></div></div><div class="envelope-back"><p class="text-green-700 text-[8px] sm:text-[10px] md:text-xs font-semibold">Open</p></div></div></div> </div> <div class="envelope-heart w-12 h-8 sm:w-16 sm:h-10 md:w-20 md:h-12" style="top: 83%; left: 70%; transform: translateX(-100%); z-index: 20;" onclick="openWish(14)"> <div class="envelope w-full h-full relative"><div class="envelope-inner"><div class="envelope-front"><div class="env-top"></div><div class="env-bottom"></div><div class="env-left"></div><div class="env-right"></div><div class="env-icon text-base sm:text-lg md:text-xl"><i class="fas fa-heart"></i></div></div><div class="envelope-back"><p class="text-green-700 text-[8px] sm:text-[10px] md:text-xs font-semibold">Open</p></div></div></div> </div> <div class="envelope-heart w-12 h-8 sm:w-16 sm:h-10 md:w-20 md:h-12" style="top: 91%; left: 40%; z-index: 20;" onclick="openWish(15)"> <div class="envelope w-full h-full relative"><div class="envelope-inner"><div class="envelope-front"><div class="env-top"></div><div class="env-bottom"></div><div class="env-left"></div><div class="env-right"></div><div class="env-icon text-base sm:text-lg md:text-xl"><i class="fas fa-heart"></i></div></div><div class="envelope-back"><p class="text-green-700 text-[8px] sm:text-[10px] md:text-xs font-semibold">Open</p></div></div></div> </div> <div class="envelope-heart w-12 h-8 sm:w-16 sm:h-10 md:w-20 md:h-12" style="top: 91%; left: 60%; transform: translateX(-100%); z-index: 20;" onclick="openWish(16)"> <div class="envelope w-full h-full relative"><div class="envelope-inner"><div class="envelope-front"><div class="env-top"></div><div class="env-bottom"></div><div class="env-left"></div><div class="env-right"></div><div class="env-icon text-base sm:text-lg md:text-xl"><i class="fas fa-heart"></i></div></div><div class="envelope-back"><p class="text-green-700 text-[8px] sm:text-[10px] md:text-xs font-semibold">Open</p></div></div></div> </div> <div class="envelope-heart w-12 h-8 sm:w-16 sm:h-10 md:w-20 md:h-12" style="top: 96%; left: 48%; transform: translateX(-50%); z-index: 20;" onclick="openWish(17)"> <div class="envelope w-full h-full relative"><div class="envelope-inner"><div class="envelope-front"><div class="env-top"></div><div class="env-bottom"></div><div class="env-left"></div><div class="env-right"></div><div class="env-icon text-base sm:text-lg md:text-xl"><i class="fas fa-heart"></i></div></div><div class="envelope-back"><p class="text-green-700 text-[8px] sm:text-[10px] md:text-xs font-semibold">Open</p></div></div></div> </div> <div class="envelope-heart w-12 h-8 sm:w-16 sm:h-10 md:w-20 md:h-12" style="top: 96%; left: 52%; transform: translateX(-50%); z-index: 20;" onclick="openWish(18)"> <div class="envelope w-full h-full relative"><div class="envelope-inner"><div class="envelope-front"><div class="env-top"></div><div class="env-bottom"></div><div class="env-left"></div><div class="env-right"></div><div class="env-icon text-base sm:text-lg md:text-xl"><i class="fas fa-heart"></i></div></div><div class="envelope-back"><p class="text-green-700 text-[8px] sm:text-[10px] md:text-xs font-semibold">Open</p></div></div></div> </div>
-             </div>
+             <div class="heart-container w-full max-w-xs sm:max-w-sm md:max-w-lg lg:max-w-[700px] xl:max-w-[850px] h-[500px] sm:h-[500px] md:h-[550px] mb-16 md:mb-20 mx-auto">
+                 <div class="heart-center"><div class="bg-white p-1 rounded-full w-28 h-28 sm:w-32 sm:h-32 md:w-40 md:h-40 lg:w-44 lg:h-44 xl:w-[200px] xl:h-[200px]"><img src="https://static.vecteezy.com/system/resources/previews/005/562/361/non_2x/cute-and-kawaii-girl-with-pink-hoodie-bunny-and-cute-rabbit-cartoon-manga-chibi-character-vector.jpg" alt="Tlinh" class="profile-pic w-full h-full rounded-full"></div></div>
+                 <!-- Envelopes 1-18 -->
+                 <div class="envelope-heart w-12 h-8 sm:w-16 sm:h-10 md:w-20 md:h-12" style="top: 8%; left: 38%; z-index: 20;" onclick="openWish(1)"> <div class="envelope w-full h-full relative"><div class="envelope-inner"><div class="envelope-front"><div class="env-top"></div><div class="env-bottom"></div><div class="env-left"></div><div class="env-right"></div><div class="env-icon text-base sm:text-lg md:text-xl"><i class="fas fa-heart"></i></div></div><div class="envelope-back"><p class="text-green-700 text-[8px] sm:text-[10px] md:text-xs font-semibold">Open</p></div></div></div> </div>
+                 <div class="envelope-heart w-12 h-8 sm:w-16 sm:h-10 md:w-20 md:h-12" style="top: 8%; left: 62%; transform: translateX(-100%); z-index: 20;" onclick="openWish(2)"> <div class="envelope w-full h-full relative"><div class="envelope-inner"><div class="envelope-front"><div class="env-top"></div><div class="env-bottom"></div><div class="env-left"></div><div class="env-right"></div><div class="env-icon text-base sm:text-lg md:text-xl"><i class="fas fa-heart"></i></div></div><div class="envelope-back"><p class="text-green-700 text-[8px] sm:text-[10px] md:text-xs font-semibold">Open</p></div></div></div> </div>
+                 <div class="envelope-heart w-12 h-8 sm:w-16 sm:h-10 md:w-20 md:h-12" style="top: 18%; left: 25%; z-index: 20;" onclick="openWish(3)"> <div class="envelope w-full h-full relative"><div class="envelope-inner"><div class="envelope-front"><div class="env-top"></div><div class="env-bottom"></div><div class="env-left"></div><div class="env-right"></div><div class="env-icon text-base sm:text-lg md:text-xl"><i class="fas fa-heart"></i></div></div><div class="envelope-back"><p class="text-green-700 text-[8px] sm:text-[10px] md:text-xs font-semibold">Open</p></div></div></div> </div>
+                 <div class="envelope-heart w-12 h-8 sm:w-16 sm:h-10 md:w-20 md:h-12" style="top: 18%; left: 75%; transform: translateX(-100%); z-index: 20;" onclick="openWish(4)"> <div class="envelope w-full h-full relative"><div class="envelope-inner"><div class="envelope-front"><div class="env-top"></div><div class="env-bottom"></div><div class="env-left"></div><div class="env-right"></div><div class="env-icon text-base sm:text-lg md:text-xl"><i class="fas fa-heart"></i></div></div><div class="envelope-back"><p class="text-green-700 text-[8px] sm:text-[10px] md:text-xs font-semibold">Open</p></div></div></div> </div>
+                 <div class="envelope-heart w-12 h-8 sm:w-16 sm:h-10 md:w-20 md:h-12" style="top: 30%; left: 18%; z-index: 20;" onclick="openWish(5)"> <div class="envelope w-full h-full relative"><div class="envelope-inner"><div class="envelope-front"><div class="env-top"></div><div class="env-bottom"></div><div class="env-left"></div><div class="env-right"></div><div class="env-icon text-base sm:text-lg md:text-xl"><i class="fas fa-heart"></i></div></div><div class="envelope-back"><p class="text-green-700 text-[8px] sm:text-[10px] md:text-xs font-semibold">Open</p></div></div></div> </div>
+                 <div class="envelope-heart w-12 h-8 sm:w-16 sm:h-10 md:w-20 md:h-12" style="top: 30%; left: 82%; transform: translateX(-100%); z-index: 20;" onclick="openWish(6)"> <div class="envelope w-full h-full relative"><div class="envelope-inner"><div class="envelope-front"><div class="env-top"></div><div class="env-bottom"></div><div class="env-left"></div><div class="env-right"></div><div class="env-icon text-base sm:text-lg md:text-xl"><i class="fas fa-heart"></i></div></div><div class="envelope-back"><p class="text-green-700 text-[8px] sm:text-[10px] md:text-xs font-semibold">Open</p></div></div></div> </div>
+                 <div class="envelope-heart w-12 h-8 sm:w-16 sm:h-10 md:w-20 md:h-12" style="top: 45%; left: 12%; z-index: 20;" onclick="openWish(7)"> <div class="envelope w-full h-full relative"><div class="envelope-inner"><div class="envelope-front"><div class="env-top"></div><div class="env-bottom"></div><div class="env-left"></div><div class="env-right"></div><div class="env-icon text-base sm:text-lg md:text-xl"><i class="fas fa-heart"></i></div></div><div class="envelope-back"><p class="text-green-700 text-[8px] sm:text-[10px] md:text-xs font-semibold">Open</p></div></div></div> </div>
+                 <div class="envelope-heart w-12 h-8 sm:w-16 sm:h-10 md:w-20 md:h-12" style="top: 45%; left: 88%; transform: translateX(-100%); z-index: 20;" onclick="openWish(8)"> <div class="envelope w-full h-full relative"><div class="envelope-inner"><div class="envelope-front"><div class="env-top"></div><div class="env-bottom"></div><div class="env-left"></div><div class="env-right"></div><div class="env-icon text-base sm:text-lg md:text-xl"><i class="fas fa-heart"></i></div></div><div class="envelope-back"><p class="text-green-700 text-[8px] sm:text-[10px] md:text-xs font-semibold">Open</p></div></div></div> </div>
+                 <div class="envelope-heart w-12 h-8 sm:w-16 sm:h-10 md:w-20 md:h-12" style="top: 60%; left: 15%; z-index: 20;" onclick="openWish(9)"> <div class="envelope w-full h-full relative"><div class="envelope-inner"><div class="envelope-front"><div class="env-top"></div><div class="env-bottom"></div><div class="env-left"></div><div class="env-right"></div><div class="env-icon text-base sm:text-lg md:text-xl"><i class="fas fa-heart"></i></div></div><div class="envelope-back"><p class="text-green-700 text-[8px] sm:text-[10px] md:text-xs font-semibold">Open</p></div></div></div> </div>
+                 <div class="envelope-heart w-12 h-8 sm:w-16 sm:h-10 md:w-20 md:h-12" style="top: 60%; left: 85%; transform: translateX(-100%); z-index: 20;" onclick="openWish(10)"> <div class="envelope w-full h-full relative"><div class="envelope-inner"><div class="envelope-front"><div class="env-top"></div><div class="env-bottom"></div><div class="env-left"></div><div class="env-right"></div><div class="env-icon text-base sm:text-lg md:text-xl"><i class="fas fa-heart"></i></div></div><div class="envelope-back"><p class="text-green-700 text-[8px] sm:text-[10px] md:text-xs font-semibold">Open</p></div></div></div> </div>
+                 <div class="envelope-heart w-12 h-8 sm:w-16 sm:h-10 md:w-20 md:h-12" style="top: 72%; left: 22%; z-index: 20;" onclick="openWish(11)"> <div class="envelope w-full h-full relative"><div class="envelope-inner"><div class="envelope-front"><div class="env-top"></div><div class="env-bottom"></div><div class="env-left"></div><div class="env-right"></div><div class="env-icon text-base sm:text-lg md:text-xl"><i class="fas fa-heart"></i></div></div><div class="envelope-back"><p class="text-green-700 text-[8px] sm:text-[10px] md:text-xs font-semibold">Open</p></div></div></div> </div>
+                 <div class="envelope-heart w-12 h-8 sm:w-16 sm:h-10 md:w-20 md:h-12" style="top: 72%; left: 78%; transform: translateX(-100%); z-index: 20;" onclick="openWish(12)"> <div class="envelope w-full h-full relative"><div class="envelope-inner"><div class="envelope-front"><div class="env-top"></div><div class="env-bottom"></div><div class="env-left"></div><div class="env-right"></div><div class="env-icon text-base sm:text-lg md:text-xl"><i class="fas fa-heart"></i></div></div><div class="envelope-back"><p class="text-green-700 text-[8px] sm:text-[10px] md:text-xs font-semibold">Open</p></div></div></div> </div>
+                 <div class="envelope-heart w-12 h-8 sm:w-16 sm:h-10 md:w-20 md:h-12" style="top: 83%; left: 30%; z-index: 20;" onclick="openWish(13)"> <div class="envelope w-full h-full relative"><div class="envelope-inner"><div class="envelope-front"><div class="env-top"></div><div class="env-bottom"></div><div class="env-left"></div><div class="env-right"></div><div class="env-icon text-base sm:text-lg md:text-xl"><i class="fas fa-heart"></i></div></div><div class="envelope-back"><p class="text-green-700 text-[8px] sm:text-[10px] md:text-xs font-semibold">Open</p></div></div></div> </div>
+                 <div class="envelope-heart w-12 h-8 sm:w-16 sm:h-10 md:w-20 md:h-12" style="top: 83%; left: 70%; transform: translateX(-100%); z-index: 20;" onclick="openWish(14)"> <div class="envelope w-full h-full relative"><div class="envelope-inner"><div class="envelope-front"><div class="env-top"></div><div class="env-bottom"></div><div class="env-left"></div><div class="env-right"></div><div class="env-icon text-base sm:text-lg md:text-xl"><i class="fas fa-heart"></i></div></div><div class="envelope-back"><p class="text-green-700 text-[8px] sm:text-[10px] md:text-xs font-semibold">Open</p></div></div></div> </div>
+                 <div class="envelope-heart w-12 h-8 sm:w-16 sm:h-10 md:w-20 md:h-12" style="top: 91%; left: 40%; z-index: 20;" onclick="openWish(15)"> <div class="envelope w-full h-full relative"><div class="envelope-inner"><div class="envelope-front"><div class="env-top"></div><div class="env-bottom"></div><div class="env-left"></div><div class="env-right"></div><div class="env-icon text-base sm:text-lg md:text-xl"><i class="fas fa-heart"></i></div></div><div class="envelope-back"><p class="text-green-700 text-[8px] sm:text-[10px] md:text-xs font-semibold">Open</p></div></div></div> </div>
+                 <div class="envelope-heart w-12 h-8 sm:w-16 sm:h-10 md:w-20 md:h-12" style="top: 91%; left: 60%; transform: translateX(-100%); z-index: 20;" onclick="openWish(16)"> <div class="envelope w-full h-full relative"><div class="envelope-inner"><div class="envelope-front"><div class="env-top"></div><div class="env-bottom"></div><div class="env-left"></div><div class="env-right"></div><div class="env-icon text-base sm:text-lg md:text-xl"><i class="fas fa-heart"></i></div></div><div class="envelope-back"><p class="text-green-700 text-[8px] sm:text-[10px] md:text-xs font-semibold">Open</p></div></div></div> </div>
+                 <div class="envelope-heart w-12 h-8 sm:w-16 sm:h-10 md:w-20 md:h-12" style="top: 96%; left: 48%; transform: translateX(-50%); z-index: 20;" onclick="openWish(17)"> <div class="envelope w-full h-full relative"><div class="envelope-inner"><div class="envelope-front"><div class="env-top"></div><div class="env-bottom"></div><div class="env-left"></div><div class="env-right"></div><div class="env-icon text-base sm:text-lg md:text-xl"><i class="fas fa-heart"></i></div></div><div class="envelope-back"><p class="text-green-700 text-[8px] sm:text-[10px] md:text-xs font-semibold">Open</p></div></div></div> </div>
+                 <div class="envelope-heart w-12 h-8 sm:w-16 sm:h-10 md:w-20 md:h-12" style="top: 96%; left: 52%; transform: translateX(-50%); z-index: 20;" onclick="openWish(18)"> <div class="envelope w-full h-full relative"><div class="envelope-inner"><div class="envelope-front"><div class="env-top"></div><div class="env-bottom"></div><div class="env-left"></div><div class="env-right"></div><div class="env-icon text-base sm:text-lg md:text-xl"><i class="fas fa-heart"></i></div></div><div class="envelope-back"><p class="text-green-700 text-[8px] sm:text-[10px] md:text-xs font-semibold">Open</p></div></div></div> </div>
+            </div>
              <div class="text-center"> <button class="nav-button" style="background-image: linear-gradient(to right, #a7f3d0, #6ee7b7);" onclick="showStep('step-gallery')"><i class="fas fa-arrow-left mr-2"></i> Back</button> <button class="nav-button ml-4" onclick="showStep('step-final')">Finish <i class="fas fa-check ml-2"></i></button> </div>
          </div>
 
@@ -271,7 +240,6 @@
              <footer class="text-center mt-12 mb-6 px-4">
                 <h3 class="text-3xl font-semibold text-green-800 mb-6">That's All For Now!</h3>
                 <p class="text-lg text-green-700 mb-8">Hope you loved your birthday surprise, Tlinh!</p>
-                <!-- ** UPDATED Signature Size ** -->
                 <p class="text-green-600 text-sm sm:text-base">Made with 💚 by [Your Name Here]</p>
                 <div class="mt-8">
                     <button class="nav-button" style="background-image: linear-gradient(to right, #a7f3d0, #6ee7b7);" onclick="showStep('step-wishes')"><i class="fas fa-arrow-left mr-2"></i> Back</button>
@@ -300,38 +268,13 @@
         const repeatBtn = document.getElementById('repeat-btn');
 
         if (playBtn && pauseBtn && repeatBtn && birthdayAudio) {
-            playBtn.addEventListener('click', () => {
-                log("Play Button Clicked");
-                try { birthdayAudio.play().catch(e => err("Audio Playback Error", e)); } catch (e) { err("Audio Control Error", e); }
-            });
-            pauseBtn.addEventListener('click', () => {
-                log("Pause Button Clicked");
-                 try { birthdayAudio.pause(); } catch (e) { err("Audio Control Error", e); }
-            });
-             repeatBtn.addEventListener('click', () => {
-                log("Repeat Button Clicked");
-                 try {
-                    birthdayAudio.currentTime = 0; // Rewind
-                    birthdayAudio.play().catch(e => err("Audio Playback Error on Repeat", e));
-                 } catch (e) { err("Audio Control Error", e); }
-            });
-
-            birthdayAudio.addEventListener('play', () => {
-                log("Audio Playing");
-                playBtn.disabled = true; pauseBtn.disabled = false;
-            });
-            birthdayAudio.addEventListener('pause', () => {
-                 log("Audio Paused");
-                playBtn.disabled = false; pauseBtn.disabled = true;
-            });
-            birthdayAudio.addEventListener('ended', () => {
-                log("Audio Ended");
-                 playBtn.disabled = false; pauseBtn.disabled = true;
-            });
-
-        } else {
-            err("Birthday audio elements not found!");
-        }
+            playBtn.addEventListener('click', () => { log("Play"); try { birthdayAudio.play().catch(e => err("Audio Play", e)); } catch (e) { err("Audio", e); } });
+            pauseBtn.addEventListener('click', () => { log("Pause"); try { birthdayAudio.pause(); } catch (e) { err("Audio", e); } });
+             repeatBtn.addEventListener('click', () => { log("Repeat"); try { birthdayAudio.currentTime = 0; birthdayAudio.play().catch(e => err("Audio Play", e)); } catch (e) { err("Audio", e); } });
+            birthdayAudio.addEventListener('play', () => { log("Playing"); playBtn.disabled = true; pauseBtn.disabled = false; });
+            birthdayAudio.addEventListener('pause', () => { log("Paused"); playBtn.disabled = false; pauseBtn.disabled = true; });
+            birthdayAudio.addEventListener('ended', () => { log("Ended"); playBtn.disabled = false; pauseBtn.disabled = true; });
+        } else { err("Audio elements missing!"); }
 
         // Blow Candle Logic
         const blowBtn=document.getElementById('blow-btn');if(blowBtn){blowBtn.addEventListener('click',function(){log("Blow");const fl=document.querySelectorAll('.flame'),ps=document.getElementById('puff-sound');let act=false;fl.forEach(f=>{if(f?.classList.contains('active')){act=true;f.classList.remove('active');f.style.opacity='0'}});if(act){log("Flames out");if(ps)try{ps.currentTime=0;ps.play().catch(e=>err("Audio",e))}catch(e){err("Audio",e)}try{createSmoke();createConfetti()}catch(e){err("FX",e)}this.disabled=true;setTimeout(()=>{const pop=document.getElementById('blow-popup');if(pop){pop.classList.add('active');log("Popup up");const yay=document.getElementById('yay-button');if(yay){const newY=yay.cloneNode(true);yay.parentNode.replaceChild(newY,yay);newY.addEventListener('click',()=>{log("Yay");closePopup();showStep('step-message')},{once:true})}else err("YayBtn?")}else err("Popup?")},1000)}else log("Blow - no flames active.")})}else err("BlowBtn?");
@@ -349,8 +292,13 @@
 
         // Step Navigation
         let currentStepId=null;function showStep(id){log(`Show:${id}`);const all=document.querySelectorAll('.step'),target=document.getElementById(id);if(!target){err(`No ${id}!`);return}all.forEach(s=>{if(s.id!==id)s.classList.remove('active-step')});target.classList.add('active-step');currentStepId=id;try{window.scrollTo({top:0,behavior:'smooth'})}catch(e){window.scrollTo(0,0)}
-        if(id !== 'step-audio' && birthdayAudio && !birthdayAudio.paused) { log("Pausing audio because leaving audio step"); birthdayAudio.pause(); }
+        // Pause birthday song if navigating away from audio step
+        if(id !== 'step-audio' && birthdayAudio && !birthdayAudio.paused) { log("Pausing Bday audio (nav away)"); birthdayAudio.pause(); }
+        // Pause video if navigating away from gallery step
+        if(id !== 'step-gallery'){ const video = document.querySelector('#step-gallery video'); if(video && !video.paused) { log("Pausing video (nav away)"); video.pause();} }
+        // Reset cake state when showing cake step
         if(id==='step-cake'){log("ResetCake");const fl=document.querySelectorAll('.flame'),btnB=document.getElementById('blow-btn');if(fl.length>0){fl.forEach(f=>{f.style.opacity='1';f.classList.add('active')});log(`Lit ${fl.length}`)}else err("NoFlames");if(btnB){btnB.disabled=false;log("BtnON")}else err("NoBlowBtn");try{addSprinkles()}catch(e){}}
+        // Reset wishes state when showing wishes step
         else if(id==='step-wishes'){log("ResetWishes");const oE=document.querySelectorAll('.envelope.open');oE.forEach(e=>e.classList.remove('open'));log(`Closed ${oE.length} envs`);const oP=document.querySelectorAll('.modal.active');let c=0;oP.forEach(p=>{if(p.id.startsWith('wish-')){p.classList.remove('active');c++}});log(`Closed ${c} pops`)}}
 
         // Init
