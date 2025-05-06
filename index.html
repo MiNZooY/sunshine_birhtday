@@ -12,22 +12,47 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* -- Animations -- */
+        :root {
+            --transition-duration: 0.6s; /* Slightly longer for slide */
+        }
+
+        /* -- Base Animations -- */
         @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-10px); } 100% { transform: translateY(0px); } }
         @keyframes confetti { 0% { transform: translateY(0) rotate(0deg); opacity: 1; } 100% { transform: translateY(100vh) rotate(720deg); opacity: 0; } }
         @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.03); } 100% { transform: scale(1); } }
         @keyframes flicker { 0% { opacity: 1; transform: scale(1); } 50% { opacity: 0.8; transform: scale(0.95); } 100% { opacity: 1; transform: scale(1); } }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-        @keyframes fadeInStep { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- Step Transition Animations (NEW: Slide) --- */
+        @keyframes slideInFromRight {
+            from { opacity: 0; transform: translateX(50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes slideOutToLeft {
+            from { opacity: 1; transform: translateX(0); }
+            to { opacity: 0; transform: translateX(-50px); }
+        }
+        /* Fallback Fade Animations (kept just in case) */
+        @keyframes stepFadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes stepFadeOut { from { opacity: 1; } to { opacity: 0; } }
+
 
         /* -- Base Styles -- */
-        body { font-family: sans-serif; background: linear-gradient(-45deg, #ecfccb, #a7f3d0, #fbcfe8, #fef08a, #d1fae5); background-size: 400% 400%; animation: gradientBG 15s ease infinite; min-height: 100vh; overflow-x: hidden; }
+        body {
+            font-family: sans-serif;
+            background: linear-gradient(-45deg, #ecfccb, #a7f3d0, #fbcfe8, #fef08a, #d1fae5);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            min-height: 100vh;
+            overflow-x: hidden; /* Important: Prevent horizontal scrollbar during slide */
+        }
         .floating { animation: float 3s ease-in-out infinite; }
         .confetti { position: fixed; width: 10px; height: 10px; background-color: #f00; opacity: 0; z-index: 9999; animation: confetti 5s linear forwards; }
         .modal { position: fixed; inset: 0; display:flex; align-items:center; justify-content:center; transition: opacity 0.3s ease, visibility 0.3s ease; opacity: 0; visibility: hidden; z-index: 10050; background-color: rgba(0,0,0,0.5); padding: 1rem; }
         .modal.active { opacity: 1; visibility: visible; }
-        .wish-popup { background-color: white; border-radius: 0.75rem; padding: 1rem 1.5rem; margin: 1rem; position: relative; max-width: 300px; width: 100%; text-align: center; z-index: 10070; }
+        .wish-popup { background-color: white; border-radius: 0.75rem; padding: 1rem 1.5rem; margin: 1rem; position: relative; max-width: 300px; width: 100%; text-align: center; z-index: 10070; transform: scale(0.9); transition: transform 0.3s ease; }
+        .modal.active .wish-popup { transform: scale(1); }
         .wish-popup .close-btn { position: absolute; top: 0.5rem; right: 0.75rem; background: none; border: none; font-size: 1.5rem; line-height: 1; color: #6b7280; cursor: pointer; padding: 0; }
         .wish-popup .icon { font-size: 1.875rem; color: #10b981; margin-bottom: 0.75rem; }
         .wish-popup h3 { font-size: 1.25rem; font-weight: 700; color: #1f2937; margin-bottom: 0.5rem; }
@@ -67,8 +92,29 @@
         #loader p { font-size: 1.25rem; color: #047857; font-weight: 600; }
 
         /* --- Step Navigation Styles --- */
-        .step { display: none !important; animation: fadeInStep 0.6s ease-out; width: 100%; padding-bottom: 2rem; min-height: 50vh; }
-        .step.active-step { display: block !important; }
+        .step {
+            display: none; /* Initially hidden */
+            width: 100%;
+            padding-bottom: 2rem;
+            min-height: 50vh;
+            opacity: 0; /* Start invisible for animation */
+            position: relative; /* Needed for potential absolute positioning within steps if desired */
+        }
+        .step.active-step {
+            display: block; /* Make it take space */
+            animation: slideInFromRight var(--transition-duration) ease-out forwards; /* Apply slide-in */
+        }
+        .step.is-exiting {
+            /* Needs 'block' to be visible during exit animation */
+            /* display: block !important; /* This might override the eventual 'none' - be careful */
+            animation: slideOutToLeft var(--transition-duration) ease-in forwards; /* Apply slide-out */
+            pointer-events: none; /* Prevent interaction during fade out */
+            /* Ensure exiting steps don't overlap oddly - absolute positioning helps */
+            position: absolute;
+            top: 0; /* Adjust as needed based on header/padding */
+            left: 0;
+        }
+
 
         /* --- Navigation Button Styles --- */
         .nav-button { display: inline-block; padding: 0.75rem 1.5rem; margin-top: 1.5rem; background-image: linear-gradient(to right, #f472b6, #facc15); color: white; border-radius: 9999px; font-weight: 600; font-size: 1rem; text-align: center; cursor: pointer; transition: transform 0.2s ease, box-shadow 0.2s ease, background-image 0.3s ease, opacity 0.3s ease; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
@@ -119,7 +165,8 @@
     <div id="confetti-container"></div>
 
     <!-- Main Container -->
-    <div class="container mx-auto px-4 py-6 sm:py-8">
+    <!-- Added position: relative and overflow: hidden to handle exiting steps cleanly -->
+    <div class="container mx-auto px-4 py-6 sm:py-8 relative overflow-hidden">
 
         <!-- STEP 1: WELCOME -->
         <div id="step-welcome" class="step">
@@ -138,6 +185,7 @@
             </div>
             <audio id="birthday-song-audio" preload="metadata">
                  <source src="the_nights.mp3" type="audio/mpeg"> Your browser does not support the audio element.
+                 <!-- Make sure the_nights.mp3 exists in the same folder -->
             </audio>
             <div class="text-center">
                  <button class="nav-button" style="background-image: linear-gradient(to right, #a7f3d0, #6ee7b7);" onclick="showStep('step-welcome')"><i class="fas fa-arrow-left mr-2"></i> Back</button>
@@ -168,6 +216,8 @@
             <div class="flex justify-center mb-12 md:mb-16"><button id="blow-btn" class="nav-button"><i class="fas fa-birthday-cake mr-2"></i> Make a Wish & Blow!</button></div>
              <div class="text-center">
                  <button class="nav-button" style="background-image: linear-gradient(to right, #a7f3d0, #6ee7b7);" onclick="showStep('step-audio')"><i class="fas fa-arrow-left mr-2"></i> Back to Song</button>
+                 <!-- REMOVED the "Read Your Message" button -->
+                 <!-- Navigation will now happen via the popup after blowing candles -->
              </div>
         </div>
 
@@ -178,41 +228,36 @@
              <div class="text-center"> <button class="nav-button" style="background-image: linear-gradient(to right, #a7f3d0, #6ee7b7);" onclick="showStep('step-cake')"><i class="fas fa-arrow-left mr-2"></i> Back to Cake</button> <button class="nav-button ml-4" onclick="showStep('step-gallery')">See Video <i class="fas fa-arrow-right ml-2"></i></button> </div>
         </div>
 
-        <!-- STEP 5: VIDEO MEMORY (Using aspect-video) -->
+        <!-- STEP 5: VIDEO MEMORY -->
         <div id="step-gallery" class="step">
              <section class="mb-12 md:mb-16">
                  <h3 class="text-3xl md:text-4xl font-semibold text-green-800 mb-6 md:mb-8 text-center">A Special Video Memory 🎬</h3>
                  <p class="text-lg text-green-600 mb-8 text-center">Press play to watch a special message or relive some moments!</p>
-
-                 <!-- Video Player -->
                  <div class="max-w-2xl mx-auto">
                      <video controls class="w-full aspect-video bg-black rounded-lg shadow-lg border-2 border-green-200" preload="metadata">
-                          <!-- IMPORTANT: Replace src with the actual path to YOUR video file -->
                           <source src="path/to/your_birthday_video.mp4" type="video/mp4">
-
-                          <!-- Optional: Add other formats for better browser compatibility -->
+                          <p class="text-white text-center p-10">Replace the source tag above with your actual video file path!</p>
                           <!-- <source src="path/to/your_birthday_video.webm" type="video/webm"> -->
                           <!-- <source src="path/to/your_birthday_video.ogg" type="video/ogg"> -->
-
-                          <!-- Fallback message if browser doesn't support video -->
-                          Sorry, your browser doesn't support embedded videos. Maybe it's time for an update?
+                          Sorry, your browser doesn't support embedded videos.
                       </video>
                  </div>
              </section>
-
-             <!-- Navigation Buttons -->
              <div class="text-center">
                  <button class="nav-button" style="background-image: linear-gradient(to right, #a7f3d0, #6ee7b7);" onclick="showStep('step-message')"><i class="fas fa-arrow-left mr-2"></i> Back</button>
                  <button class="nav-button ml-4" onclick="showStep('step-wishes')">Open Wishes <i class="fas fa-arrow-right ml-2"></i></button>
              </div>
         </div>
 
-        <!-- STEP 6: WISHES (Mobile Optimized Layout) -->
+        <!-- STEP 6: WISHES -->
          <div id="step-wishes" class="step">
              <div class="text-center mb-10 md:mb-12"><h3 class="text-3xl md:text-4xl font-semibold text-green-800 mb-4"><i class="fas fa-heart text-pink-500"></i> Heart Full of Wishes! <i class="fas fa-heart text-pink-500"></i></h3><p class="text-lg text-green-600">Click each envelope...</p></div>
              <div class="heart-container w-full max-w-xs sm:max-w-sm md:max-w-lg lg:max-w-[700px] xl:max-w-[850px] h-[500px] sm:h-[500px] md:h-[550px] mb-16 md:mb-20 mx-auto">
+                <svg viewBox="0 0 200 180" class="absolute inset-0 w-full h-full opacity-10 pointer-events-none" fill="#fbcfe8">
+                  <path d="M100 180 L20 70 Q0 40 20 20 Q40 0 60 20 L100 60 L140 20 Q160 0 180 20 Q200 40 180 70 Z" />
+                </svg>
                  <div class="heart-center"><div class="bg-white p-1 rounded-full w-28 h-28 sm:w-32 sm:h-32 md:w-40 md:h-40 lg:w-44 lg:h-44 xl:w-[200px] xl:h-[200px]"><img src="https://static.vecteezy.com/system/resources/previews/005/562/361/non_2x/cute-and-kawaii-girl-with-pink-hoodie-bunny-and-cute-rabbit-cartoon-manga-chibi-character-vector.jpg" alt="Tlinh" class="profile-pic w-full h-full rounded-full"></div></div>
-                 <!-- Envelopes 1-18 -->
+                 <!-- Envelopes 1-18 (Positions remain the same) -->
                  <div class="envelope-heart w-12 h-8 sm:w-16 sm:h-10 md:w-20 md:h-12" style="top: 8%; left: 38%; z-index: 20;" onclick="openWish(1)"> <div class="envelope w-full h-full relative"><div class="envelope-inner"><div class="envelope-front"><div class="env-top"></div><div class="env-bottom"></div><div class="env-left"></div><div class="env-right"></div><div class="env-icon text-base sm:text-lg md:text-xl"><i class="fas fa-heart"></i></div></div><div class="envelope-back"><p class="text-green-700 text-[8px] sm:text-[10px] md:text-xs font-semibold">Open</p></div></div></div> </div>
                  <div class="envelope-heart w-12 h-8 sm:w-16 sm:h-10 md:w-20 md:h-12" style="top: 8%; left: 62%; transform: translateX(-100%); z-index: 20;" onclick="openWish(2)"> <div class="envelope w-full h-full relative"><div class="envelope-inner"><div class="envelope-front"><div class="env-top"></div><div class="env-bottom"></div><div class="env-left"></div><div class="env-right"></div><div class="env-icon text-base sm:text-lg md:text-xl"><i class="fas fa-heart"></i></div></div><div class="envelope-back"><p class="text-green-700 text-[8px] sm:text-[10px] md:text-xs font-semibold">Open</p></div></div></div> </div>
                  <div class="envelope-heart w-12 h-8 sm:w-16 sm:h-10 md:w-20 md:h-12" style="top: 18%; left: 25%; z-index: 20;" onclick="openWish(3)"> <div class="envelope w-full h-full relative"><div class="envelope-inner"><div class="envelope-front"><div class="env-top"></div><div class="env-bottom"></div><div class="env-left"></div><div class="env-right"></div><div class="env-icon text-base sm:text-lg md:text-xl"><i class="fas fa-heart"></i></div></div><div class="envelope-back"><p class="text-green-700 text-[8px] sm:text-[10px] md:text-xs font-semibold">Open</p></div></div></div> </div>
@@ -240,7 +285,7 @@
              <footer class="text-center mt-12 mb-6 px-4">
                 <h3 class="text-3xl font-semibold text-green-800 mb-6">That's All For Now!</h3>
                 <p class="text-lg text-green-700 mb-8">Hope you loved your birthday surprise, Tlinh!</p>
-                <p class="text-green-600 text-sm sm:text-base">Made with 💚 by [Your Name Here]</p>
+                <p class="text-green-600 text-sm sm:text-base">Made with 💚 by mzooy</p> <!-- Remember to change this! -->
                 <div class="mt-8">
                     <button class="nav-button" style="background-image: linear-gradient(to right, #a7f3d0, #6ee7b7);" onclick="showStep('step-wishes')"><i class="fas fa-arrow-left mr-2"></i> Back</button>
                     <button class="nav-button ml-4" style="background-image: linear-gradient(to right, #fbbf24, #f59e0b);" onclick="showStep('step-welcome')"><i class="fas fa-redo mr-2"></i> Start Over?</button>
@@ -252,14 +297,35 @@
 
     <!-- Popups -->
     <div id="blow-popup" class="modal"><div class="bg-white rounded-xl p-6 sm:p-8 max-w-md w-full relative border-4 border-pink-300"><div class="text-center"><div class="text-5xl sm:text-6xl mb-4 sm:mb-6 text-pink-500">🎉</div><h3 class="text-2xl sm:text-3xl font-bold text-green-800 mb-4">Wish Granted!</h3><p class="text-green-700 mb-6 text-base sm:text-lg">Hope your wish on <span class="date-highlight">May 12th</span> comes true!</p><button id="yay-button" class="nav-button"><i class="fas fa-smile-wink mr-2"></i> Yay! Continue!</button></div></div></div>
-    <div id="wish-popup-1" class="modal"><div class="wish-popup"><button onclick="closeWish(1)" class="close-btn">×</button><div class="icon">💌</div><h3>Wish #1</h3><p>May your 18th year be filled with joy and success!</p></div></div> <div id="wish-popup-2" class="modal"><div class="wish-popup"><button onclick="closeWish(2)" class="close-btn">×</button><div class="icon">💌</div><h3>Wish #2</h3><p>Wishing you endless happiness on your special day!</p></div></div> <div id="wish-popup-3" class="modal"><div class="wish-popup"><button onclick="closeWish(3)" class="close-btn">×</button><div class="icon">💌</div><h3>Wish #3</h3><p>Happy 18th Birthday! May all your dreams take flight.</p></div></div> <div id="wish-popup-4" class="modal"><div class="wish-popup"><button onclick="closeWish(4)" class="close-btn">×</button><div class="icon">💌</div><h3>Wish #4</h3><p>Welcome to adulthood! Enjoy every moment.</p></div></div> <div id="wish-popup-5" class="modal"><div class="wish-popup"><button onclick="closeWish(5)" class="close-btn">×</button><div class="icon">💌</div><h3>Wish #5</h3><p>Hope your birthday is as amazing as you are!</p></div></div> <div id="wish-popup-6" class="modal"><div class="wish-popup"><button onclick="closeWish(6)" class="close-btn">×</button><div class="icon">💌</div><h3>Wish #6</h3><p>Cheers to 18 years and many more to come!</p></div></div> <div id="wish-popup-7" class="modal"><div class="wish-popup"><button onclick="closeWish(7)" class="close-btn">×</button><div class="icon">💌</div><h3>Wish #7</h3><p>May your day be filled with love, laughter, and cake!</p></div></div> <div id="wish-popup-8" class="modal"><div class="wish-popup"><button onclick="closeWish(8)" class="close-btn">×</button><div class="icon">💌</div><h3>Wish #8</h3><p>Wishing you all the best on this milestone birthday!</p></div></div> <div id="wish-popup-9" class="modal"><div class="wish-popup"><button onclick="closeWish(9)" class="close-btn">×</button><div class="icon">💌</div><h3>Wish #9</h3><p>Keep being your awesome self! Happy 18th!</p></div></div> <div id="wish-popup-10" class="modal"><div class="wish-popup"><button onclick="closeWish(10)" class="close-btn">×</button><div class="icon">💌</div><h3>Wish #10</h3><p>Sending you the biggest birthday hug!</p></div></div> <div id="wish-popup-11" class="modal"><div class="wish-popup"><button onclick="closeWish(11)" class="close-btn">×</button><div class="icon">💌</div><h3>Wish #11</h3><p>Hope your 18th year is full of great adventures!</p></div></div> <div id="wish-popup-12" class="modal"><div class="wish-popup"><button onclick="closeWish(12)" class="close-btn">×</button><div class="icon">💌</div><h3>Wish #12</h3><p>May happiness follow you wherever you go.</p></div></div> <div id="wish-popup-13" class="modal"><div class="wish-popup"><button onclick="closeWish(13)" class="close-btn">×</button><div class="icon">💌</div><h3>Wish #13</h3><p>Eighteen looks great on you! Happy Birthday!</p></div></div> <div id="wish-popup-14" class="modal"><div class="wish-popup"><button onclick="closeWish(14)" class="close-btn">×</button><div class="icon">💌</div><h3>Wish #14</h3><p>Wishing you a day as sunny as your smile!</p></div></div> <div id="wish-popup-15" class="modal"><div class="wish-popup"><button onclick="closeWish(15)" class="close-btn">×</button><div class="icon">💌</div><h3>Wish #15</h3><p>Happy 18th! Time to make some amazing memories.</p></div></div> <div id="wish-popup-16" class="modal"><div class="wish-popup"><button onclick="closeWish(16)" class="close-btn">×</button><div class="icon">💌</div><h3>Wish #16</h3><p>May your future be bright and beautiful.</p></div></div> <div id="wish-popup-17" class="modal"><div class="wish-popup"><button onclick="closeWish(17)" class="close-btn">×</button><div class="icon">💌</div><h3>Wish #17</h3><p>Wishing you strength and courage for the road ahead.</p></div></div> <div id="wish-popup-18" class="modal"><div class="wish-popup"><button onclick="closeWish(18)" class="close-btn">×</button><div class="icon">💌</div><h3>Wish #18</h3><p>Happy Birthday, Tlinh! You are truly special!</p></div></div>
+    <!-- Wish Popups (1-18) - Content remains the same -->
+    <div id="wish-popup-1" class="modal"><div class="wish-popup"><button onclick="closeWish(1)" class="close-btn">×</button><div class="icon">💌</div><h3>Wish #1</h3><p>May your 18th year be filled with joy and success!</p></div></div>
+    <div id="wish-popup-2" class="modal"><div class="wish-popup"><button onclick="closeWish(2)" class="close-btn">×</button><div class="icon">💌</div><h3>Wish #2</h3><p>Wishing you endless happiness on your special day!</p></div></div>
+    <div id="wish-popup-3" class="modal"><div class="wish-popup"><button onclick="closeWish(3)" class="close-btn">×</button><div class="icon">💌</div><h3>Wish #3</h3><p>Happy 18th Birthday! May all your dreams take flight.</p></div></div>
+    <div id="wish-popup-4" class="modal"><div class="wish-popup"><button onclick="closeWish(4)" class="close-btn">×</button><div class="icon">💌</div><h3>Wish #4</h3><p>Welcome to adulthood! Enjoy every moment.</p></div></div>
+    <div id="wish-popup-5" class="modal"><div class="wish-popup"><button onclick="closeWish(5)" class="close-btn">×</button><div class="icon">💌</div><h3>Wish #5</h3><p>Hope your birthday is as amazing as you are!</p></div></div>
+    <div id="wish-popup-6" class="modal"><div class="wish-popup"><button onclick="closeWish(6)" class="close-btn">×</button><div class="icon">💌</div><h3>Wish #6</h3><p>Cheers to 18 years and many more to come!</p></div></div>
+    <div id="wish-popup-7" class="modal"><div class="wish-popup"><button onclick="closeWish(7)" class="close-btn">×</button><div class="icon">💌</div><h3>Wish #7</h3><p>May your day be filled with love, laughter, and cake!</p></div></div>
+    <div id="wish-popup-8" class="modal"><div class="wish-popup"><button onclick="closeWish(8)" class="close-btn">×</button><div class="icon">💌</div><h3>Wish #8</h3><p>Wishing you all the best on this milestone birthday!</p></div></div>
+    <div id="wish-popup-9" class="modal"><div class="wish-popup"><button onclick="closeWish(9)" class="close-btn">×</button><div class="icon">💌</div><h3>Wish #9</h3><p>Keep being your awesome self! Happy 18th!</p></div></div>
+    <div id="wish-popup-10" class="modal"><div class="wish-popup"><button onclick="closeWish(10)" class="close-btn">×</button><div class="icon">💌</div><h3>Wish #10</h3><p>Sending you the biggest birthday hug!</p></div></div>
+    <div id="wish-popup-11" class="modal"><div class="wish-popup"><button onclick="closeWish(11)" class="close-btn">×</button><div class="icon">💌</div><h3>Wish #11</h3><p>Hope your 18th year is full of great adventures!</p></div></div>
+    <div id="wish-popup-12" class="modal"><div class="wish-popup"><button onclick="closeWish(12)" class="close-btn">×</button><div class="icon">💌</div><h3>Wish #12</h3><p>May happiness follow you wherever you go.</p></div></div>
+    <div id="wish-popup-13" class="modal"><div class="wish-popup"><button onclick="closeWish(13)" class="close-btn">×</button><div class="icon">💌</div><h3>Wish #13</h3><p>Eighteen looks great on you! Happy Birthday!</p></div></div>
+    <div id="wish-popup-14" class="modal"><div class="wish-popup"><button onclick="closeWish(14)" class="close-btn">×</button><div class="icon">💌</div><h3>Wish #14</h3><p>Wishing you a day as sunny as your smile!</p></div></div>
+    <div id="wish-popup-15" class="modal"><div class="wish-popup"><button onclick="closeWish(15)" class="close-btn">×</button><div class="icon">💌</div><h3>Wish #15</h3><p>Happy 18th! Time to make some amazing memories.</p></div></div>
+    <div id="wish-popup-16" class="modal"><div class="wish-popup"><button onclick="closeWish(16)" class="close-btn">×</button><div class="icon">💌</div><h3>Wish #16</h3><p>May your future be bright and beautiful.</p></div></div>
+    <div id="wish-popup-17" class="modal"><div class="wish-popup"><button onclick="closeWish(17)" class="close-btn">×</button><div class="icon">💌</div><h3>Wish #17</h3><p>Wishing you strength and courage for the road ahead.</p></div></div>
+    <div id="wish-popup-18" class="modal"><div class="wish-popup"><button onclick="closeWish(18)" class="close-btn">×</button><div class="icon">💌</div><h3>Wish #18</h3><p>Happy Birthday, Tlinh! You are truly special!</p></div></div>
+
 
     <!-- Audio Elements -->
     <audio id="puff-sound" preload="auto" style="display:none;"><source src="data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQQAAAAA//8CAP/+//8A//8AAAAAAAD//wAAAP/AAAAA//8AAAD/AAAAAAACAPkABgL4/+ED8QDd/+YDiwOABIAA7wHtARAJ7AF1APoB9wEKAvwBugEWBBQA7/8kAcsACgHqAPoA/QDtAT4CfgHBAgEAIgEBAAEC7f/xAdsB+AHDAh0BLQBcAGEAYQBRAMoAagBQAIMAXgBSAGwAWgBuAIUAgQCFAIkAfAB+AIsAlQCiAKQAogCtALUAtQC1ALEAnQCpAJoAnACuAKgAoACpAKQAngCeALIArwCqAKMAlwCZAA==" type="audio/wav"></audio>
 
     <script>
         "use strict";
-        const log=(m,...a)=>console.log(`[B] ${m}`,...a),err=(m,...a)=>console.error(`[B ERR] ${m}`,...a);
+        const log=(m,...a)=>console.log(`[B] ${m}`,...a);
+        const err=(m,...a)=>console.error(`[B ERR] ${m}`,...a);
+        const TRANSITION_DURATION_MS = 600; // Must match --transition-duration in CSS (0.6s = 600ms)
 
         // Birthday Song Playback Logic
         const birthdayAudio = document.getElementById('birthday-song-audio');
@@ -270,40 +336,218 @@
         if (playBtn && pauseBtn && repeatBtn && birthdayAudio) {
             playBtn.addEventListener('click', () => { log("Play"); try { birthdayAudio.play().catch(e => err("Audio Play", e)); } catch (e) { err("Audio", e); } });
             pauseBtn.addEventListener('click', () => { log("Pause"); try { birthdayAudio.pause(); } catch (e) { err("Audio", e); } });
-             repeatBtn.addEventListener('click', () => { log("Repeat"); try { birthdayAudio.currentTime = 0; birthdayAudio.play().catch(e => err("Audio Play", e)); } catch (e) { err("Audio", e); } });
+            repeatBtn.addEventListener('click', () => { log("Repeat"); try { birthdayAudio.currentTime = 0; birthdayAudio.play().catch(e => err("Audio Play", e)); } catch (e) { err("Audio", e); } });
             birthdayAudio.addEventListener('play', () => { log("Playing"); playBtn.disabled = true; pauseBtn.disabled = false; });
             birthdayAudio.addEventListener('pause', () => { log("Paused"); playBtn.disabled = false; pauseBtn.disabled = true; });
             birthdayAudio.addEventListener('ended', () => { log("Ended"); playBtn.disabled = false; pauseBtn.disabled = true; });
+            playBtn.disabled = false;
+            pauseBtn.disabled = true;
         } else { err("Audio elements missing!"); }
 
         // Blow Candle Logic
-        const blowBtn=document.getElementById('blow-btn');if(blowBtn){blowBtn.addEventListener('click',function(){log("Blow");const fl=document.querySelectorAll('.flame'),ps=document.getElementById('puff-sound');let act=false;fl.forEach(f=>{if(f?.classList.contains('active')){act=true;f.classList.remove('active');f.style.opacity='0'}});if(act){log("Flames out");if(ps)try{ps.currentTime=0;ps.play().catch(e=>err("Audio",e))}catch(e){err("Audio",e)}try{createSmoke();createConfetti()}catch(e){err("FX",e)}this.disabled=true;setTimeout(()=>{const pop=document.getElementById('blow-popup');if(pop){pop.classList.add('active');log("Popup up");const yay=document.getElementById('yay-button');if(yay){const newY=yay.cloneNode(true);yay.parentNode.replaceChild(newY,yay);newY.addEventListener('click',()=>{log("Yay");closePopup();showStep('step-message')},{once:true})}else err("YayBtn?")}else err("Popup?")},1000)}else log("Blow - no flames active.")})}else err("BlowBtn?");
+        const blowBtn = document.getElementById('blow-btn');
+        if (blowBtn) {
+            blowBtn.addEventListener('click', function() {
+                log("Blow");
+                const fl = document.querySelectorAll('.flame');
+                const ps = document.getElementById('puff-sound');
+                let activeFlamesFound = false;
+
+                fl.forEach(f => {
+                    if (f?.classList.contains('active')) {
+                        activeFlamesFound = true;
+                        f.classList.remove('active'); // Flicker stops
+                        f.style.opacity = '0'; // Start CSS transition fade out
+                    }
+                });
+
+                if (activeFlamesFound) {
+                    log("Flames extinguishing...");
+                    if (ps) try { ps.currentTime = 0; ps.play().catch(e => err("Audio Puff", e)) } catch (e) { err("Audio Puff", e) }
+
+                    setTimeout(() => { try { createSmoke() } catch (e) { err("FX:Smoke", e) } }, 150);
+                    setTimeout(() => { try { createConfetti() } catch (e) { err("FX:Confetti", e) } }, 400);
+
+                    this.disabled = true;
+
+                    // Show popup after flames visually extinguish
+                    setTimeout(() => {
+                        const pop = document.getElementById('blow-popup');
+                        if (pop) {
+                            pop.classList.add('active');
+                            log("Popup up");
+                            const yay = document.getElementById('yay-button');
+                            if (yay) {
+                                const newY = yay.cloneNode(true); // Clone to replace listener
+                                yay.parentNode.replaceChild(newY, yay);
+
+                                // *** UPDATED YAY BUTTON ACTION ***
+                                newY.addEventListener('click', () => {
+                                    log("Yay! Button Clicked");
+                                    closePopup(); // Close the current popup first
+                                    // Automatically navigate to the message step
+                                    showStep('step-message');
+                                }, { once: true });
+                            } else err("YayBtn not found inside popup?")
+                        } else err("Blow Popup not found?")
+                    }, 800); // Delay allows flame fade/smoke/confetti effects
+                } else {
+                    log("Blow - no flames active.")
+                }
+            })
+        } else { err("BlowBtn not found?"); }
+
 
         // Popups
         function closePopup(){log("Close blowpop");const bp=document.getElementById('blow-popup');if(bp)bp.classList.remove('active')}
         function closeWish(n){log(`Close W${n}`);const wp=document.getElementById(`wish-popup-${n}`),env=document.querySelector(`.envelope-heart[onclick="openWish(${n})"] .envelope`);if(wp)wp.classList.remove('active');if(env)env.classList.remove('open')}
         function openWish(n){log(`Open W${n}`);const wp=document.getElementById(`wish-popup-${n}`),env=document.querySelector(`.envelope-heart[onclick="openWish(${n})"] .envelope`);if(wp){wp.classList.add('active');if(env)env.classList.add('open');else err(`Env ${n}?`)}else err(`WPop ${n}?`)}
 
-        // Effects
+        // Effects (Confetti, Smoke, Hearts, Sprinkles - remain the same)
         function createConfetti(){try{const c=['#4ade80','#22c55e','#f472b6','#ec4899','#fcd34d','#f59e0b','#86efac','#ecfccb'],o=document.getElementById('confetti-container');if(!o)return;const n=window.innerWidth<768?75:150;for(let i=0;i<n;i++){const e=document.createElement('div');e.className='confetti';e.style.left=Math.random()*100+'vw';e.style.backgroundColor=c[Math.floor(Math.random()*c.length)];e.style.width=Math.random()*8+4+'px';e.style.height=e.style.width;e.style.animationDuration=Math.random()*3+2+'s';e.style.animationDelay=Math.random()*0.5+'s';o.appendChild(e);setTimeout(()=>e?.remove(),5000)}}catch(e){err("FX:Confetti",e)}}
         function createSmoke(){try{const co=document.querySelector('.cake-container'),ca=document.querySelector('.candle-8-mh')||document.querySelector('.candle-1');if(!co||!ca)return;let cr=ca.getBoundingClientRect(),sr=co.getBoundingClientRect(),sy=(cr&&sr&&cr.height!==0&&sr.top!==0)?(cr.top-sr.top):-10;for(let i=0;i<8;i++){const s=document.createElement('div');s.className='absolute w-2 h-2 sm:w-3 sm:h-3 bg-gray-300 rounded-full opacity-60 pointer-events-none';s.style.position='absolute';s.style.left='50%';s.style.top=`${sy}px`;s.style.transform='translateX(-50%)';co.appendChild(s);const ey=sy-(60+Math.random()*40),ex=(Math.random()*50-25);try{if(s.animate){const a=s.animate([{top:`${sy}px`,opacity:0.6,transform:`translateX(-50%) scale(0.8)`},{top:`${ey}px`,opacity:0,transform:`translateX(calc(-50% + ${ex}px)) scale(1.5)`}],{duration:1800+Math.random()*400,easing:'cubic-bezier(0.25,0.1,0.75,0.5)'});a.finished.finally(()=>s?.remove())}else{setTimeout(()=>s?.remove(),2200)}}catch(er){s?.remove()}}}catch(e){err("FX:Smoke",e)}}
         function createFloatingHearts(){try{const c=document.body;if(!c)return;const n=window.innerWidth<768?8:15;for(let i=0;i<n;i++){const h=document.createElement('div');h.className='absolute text-2xl opacity-20 floating pointer-events-none';h.innerHTML='💚';h.style.position='fixed';h.style.left=Math.random()*95+2.5+'vw';h.style.top=Math.random()*95+2.5+'vh';h.style.animationDelay=Math.random()*5+'s';h.style.fontSize=Math.random()*16+10+'px';h.style.zIndex='-1';c.appendChild(h)}}catch(e){err("FX:Hearts",e)}}
         function addSprinkles(){try{const lrs=['layer1','layer2','layer3'].map(id=>document.getElementById(id));if(lrs.some(l=>!l))return;const cs=['#f472b6','#ec4899','#fcd34d','#f59e0b','#86efac','#4ade80','#a5b4fc','#818cf8'],lw=[220,185,150],lh=[65,55,45],ns=[15,12,8];lrs.forEach((l,x)=>{if(!l)return;l.querySelectorAll('.cake-sprinkle').forEach(s=>s.remove());for(let i=0;i<ns[x];i++){const s=document.createElement('div');s.className='cake-sprinkle';s.style.position='absolute';s.style.backgroundColor=cs[Math.floor(Math.random()*cs.length)];s.style.width=Math.random()*5+3+'px';s.style.height=s.style.width;s.style.borderRadius='50%';s.style.left=Math.random()*(lw[x]-10)+5+'px';s.style.top=Math.random()*(lh[x]-10)+5+'px';l.appendChild(s)}})}catch(e){err("FX:Sprinkles",e)}}
 
-        // Step Navigation
-        let currentStepId=null;function showStep(id){log(`Show:${id}`);const all=document.querySelectorAll('.step'),target=document.getElementById(id);if(!target){err(`No ${id}!`);return}all.forEach(s=>{if(s.id!==id)s.classList.remove('active-step')});target.classList.add('active-step');currentStepId=id;try{window.scrollTo({top:0,behavior:'smooth'})}catch(e){window.scrollTo(0,0)}
-        // Pause birthday song if navigating away from audio step
-        if(id !== 'step-audio' && birthdayAudio && !birthdayAudio.paused) { log("Pausing Bday audio (nav away)"); birthdayAudio.pause(); }
-        // Pause video if navigating away from gallery step
-        if(id !== 'step-gallery'){ const video = document.querySelector('#step-gallery video'); if(video && !video.paused) { log("Pausing video (nav away)"); video.pause();} }
-        // Reset cake state when showing cake step
-        if(id==='step-cake'){log("ResetCake");const fl=document.querySelectorAll('.flame'),btnB=document.getElementById('blow-btn');if(fl.length>0){fl.forEach(f=>{f.style.opacity='1';f.classList.add('active')});log(`Lit ${fl.length}`)}else err("NoFlames");if(btnB){btnB.disabled=false;log("BtnON")}else err("NoBlowBtn");try{addSprinkles()}catch(e){}}
-        // Reset wishes state when showing wishes step
-        else if(id==='step-wishes'){log("ResetWishes");const oE=document.querySelectorAll('.envelope.open');oE.forEach(e=>e.classList.remove('open'));log(`Closed ${oE.length} envs`);const oP=document.querySelectorAll('.modal.active');let c=0;oP.forEach(p=>{if(p.id.startsWith('wish-')){p.classList.remove('active');c++}});log(`Closed ${c} pops`)}}
+        // Step Navigation (Using Slide Animations)
+        let isTransitioning = false;
+
+        function showStep(id) {
+            if (isTransitioning) {
+                log(`Transition in progress, ignoring showStep(${id})`);
+                return;
+            }
+
+            log(`ShowStep: ${id}`);
+            const nextStep = document.getElementById(id);
+            if (!nextStep) {
+                err(`Target step "${id}" not found!`);
+                return;
+            }
+
+            const container = nextStep.closest('.container'); // Get the parent container
+            const currentStep = container ? container.querySelector('.step.active-step') : null; // Find active step within container
+
+            if (currentStep === nextStep) {
+                 log(`Already on step ${id}`);
+                 return;
+            }
+
+            isTransitioning = true;
+            if (container) container.style.minHeight = container.offsetHeight + 'px'; // Attempt to fix height jump
+
+            const shouldPauseBdayAudio = id !== 'step-audio' && birthdayAudio && !birthdayAudio.paused;
+            const videoElement = document.querySelector('#step-gallery video');
+            const shouldPauseVideo = id !== 'step-gallery' && videoElement && !videoElement.paused;
+
+            // Handle Current Step (Slide Out)
+            if (currentStep) {
+                log(` Sliding out: ${currentStep.id}`);
+                 // Make sure it stays visible during animation
+                 currentStep.style.display = 'block'; // Ensure it's block before adding is-exiting
+                 currentStep.classList.add('is-exiting');
+                 currentStep.classList.remove('active-step');
+
+
+                // After the slide-out animation finishes, hide it completely
+                setTimeout(() => {
+                    // Reset position and hide
+                    currentStep.style.position = ''; // Reset position from absolute
+                    currentStep.style.top = '';
+                    currentStep.style.left = '';
+                    currentStep.style.display = 'none';
+                    currentStep.classList.remove('is-exiting');
+                    log(`  > ${currentStep.id} hidden.`);
+
+                    if (shouldPauseBdayAudio) { birthdayAudio.pause(); log(" > Bday audio paused."); }
+                    if (shouldPauseVideo) { videoElement.pause(); log(" > Video paused."); }
+
+                }, TRANSITION_DURATION_MS);
+            }
+
+             // Handle Next Step (Slide In)
+             log(` Sliding in: ${id}`);
+             if (id === 'step-cake') { resetCakeState(); }
+             else if (id === 'step-wishes') { resetWishesState(); }
+
+             // Use timeout to ensure previous step starts exiting first
+             setTimeout(() => {
+                nextStep.style.display = 'block'; // Make it visible for the animation
+                // Ensure position is relative (or default) before adding class
+                nextStep.style.position = 'relative';
+                nextStep.style.top = '';
+                nextStep.style.left = '';
+                void nextStep.offsetWidth; // Force reflow
+                nextStep.classList.add('active-step'); // Triggers slideInFromRight
+
+                log(`  > ${id} is now active.`);
+                try { window.scrollTo({ top: 0, behavior: 'smooth' }); } catch (e) { window.scrollTo(0, 0); }
+
+                // Unlock transitioning after the incoming animation is complete
+                setTimeout(() => {
+                   log(` Transition complete for ${id}`);
+                   isTransitioning = false;
+                   if (container) container.style.minHeight = ''; // Reset container height
+                }, TRANSITION_DURATION_MS);
+
+             }, currentStep ? 50 : 0); // Slight delay if a step is exiting
+        }
+
+        function resetCakeState() {
+            log(" ResetCake State");
+            const flames = document.querySelectorAll('.flame');
+            const blowButton = document.getElementById('blow-btn');
+            if (flames.length > 0) {
+                flames.forEach(f => {
+                    f.style.opacity = '1'; // Reset visual state before step shows
+                    f.classList.add('active');
+                });
+                log(` Lit ${flames.length} flames`);
+            } else err(" No Flames during reset");
+            if (blowButton) { blowButton.disabled = false; log(" Blow Button Enabled"); }
+            else err(" No Blow Button during reset");
+            try { addSprinkles(); } catch (e) { err("FX:Sprinkles on Reset", e); }
+        }
+
+        function resetWishesState() {
+             log(" ResetWishes State");
+            const openEnvelopes = document.querySelectorAll('.envelope.open');
+            openEnvelopes.forEach(e => e.classList.remove('open'));
+            log(` Closed ${openEnvelopes.length} envelopes.`);
+            const openPopups = document.querySelectorAll('.modal.active');
+            let closedCount = 0;
+            openPopups.forEach(p => { if (p.id.startsWith('wish-popup-')) { p.classList.remove('active'); closedCount++; } });
+            log(` Closed ${closedCount} wish popups.`);
+        }
+
 
         // Init
-        function runOnLoad(){log("Init");try{createFloatingHearts();addSprinkles()}catch(e){}const ldr=document.getElementById('loader');if(ldr){log("Loader");const dl=500,fd=700;setTimeout(()=>{ldr.style.opacity='0';setTimeout(()=>{ldr.style.display='none';showStep('step-welcome')},fd)},dl)}else{err("NoLoader!");showStep('step-welcome')}}
-        if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',runOnLoad);else runOnLoad();
+        function runOnLoad(){
+            log("Init - Page Loaded");
+            try{createFloatingHearts(); addSprinkles();} catch(e){ err("Initial FX", e)}
+            const loader = document.getElementById('loader');
+            if (loader) {
+                log(" Loader found.");
+                setTimeout(() => {
+                    loader.style.opacity = '0';
+                    log("  Loader fade out initiated.");
+                    setTimeout(() => {
+                        loader.style.display = 'none';
+                        log("  Loader hidden.");
+                        showStep('step-welcome'); // Show first step after loader is gone
+                    }, 700); // Match loader fade duration
+                }, 1500); // Delay before fade starts
+            } else {
+                err("No Loader found!");
+                showStep('step-welcome'); // Show first step immediately
+            }
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', runOnLoad);
+        } else {
+            runOnLoad();
+        }
 
     </script>
 
