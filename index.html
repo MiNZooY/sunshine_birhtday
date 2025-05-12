@@ -51,28 +51,10 @@
         .confetti { position: fixed; width: 10px; height: 10px; background-color: #f00; opacity: 0; z-index: 9999; animation: confetti 5s linear forwards; }
         .modal { position: fixed; inset: 0; display:flex; align-items:center; justify-content:center; transition: opacity 0.3s ease, visibility 0.3s ease; opacity: 0; visibility: hidden; z-index: 10050; background-color: rgba(0,0,0,0.5); padding: 1rem; }
         .modal.active { opacity: 1; visibility: visible; }
-        .wish-popup { background-color: white; border-radius: 0.75rem; padding: 1rem 1.5rem; margin: 1rem; position: relative; max-width: 300px; width: 100%; text-align: center; z-index: 10070; transform: scale(0.9); transition: transform 0.3s ease; }
-        .modal.active .wish-popup { transform: scale(1); }
-        .wish-popup .close-btn { position: absolute; top: 0.5rem; right: 0.75rem; background: none; border: none; font-size: 1.5rem; line-height: 1; color: #6b7280; cursor: pointer; padding: 0; }
-        .wish-popup .icon { font-size: 1.875rem; color: #10b981; margin-bottom: 0.75rem; }
-        .wish-popup h3 { font-size: 1.25rem; font-weight: 700; color: #1f2937; margin-bottom: 0.5rem; }
-        .wish-popup p { color: #374151; font-size: 0.875rem; line-height: 1.25rem; }
-        @media (min-width: 640px) { .wish-popup p { font-size: 1rem; line-height: 1.5rem; } }
+        /* .wish-popup styles removed as they are no longer used */
 
         /* -- Components -- */
-        .envelope-heart { position: absolute; z-index: 20; }
-        .envelope { transition: all 0.3s ease; perspective: 1000px; cursor: pointer; }
-        .envelope:hover { transform: scale(1.1); }
-        .envelope-inner { transition: all 0.5s ease; transform-style: preserve-3d; width: 100%; height: 100%; }
-        .envelope.open .envelope-inner { transform: rotateX(180deg); }
-        .envelope-front, .envelope-back { backface-visibility: hidden; position: absolute; width: 100%; height: 100%; }
-        .envelope-front { background-color: #ccc; border-radius: 0.375rem; overflow: hidden; }
-        .env-top { position: absolute; inset: 0; background-color: #15803d; clip-path: polygon(0% 0%, 100% 0%, 50% 50%); }
-        .env-bottom { position: absolute; inset: 0; background-color: #22c55e; clip-path: polygon(0% 100%, 100% 100%, 50% 50%, 0% 100%); }
-        .env-left { position: absolute; inset: 0; background-color: #16a34a; clip-path: polygon(0% 0%, 50% 50%, 0% 100%); }
-        .env-right { position: absolute; inset: 0; background-color: #16a34a; clip-path: polygon(100% 0%, 50% 50%, 100% 100%); }
-        .env-icon { position: absolute; top: 35%; left: 50%; transform: translate(-50%, -50%); color: white; }
-        .envelope-back { transform: rotateX(180deg); background-color: #f0fdf4; display: flex; align-items: center; justify-content: center; padding: 0.25rem; border-radius: 0.375rem; }
+        /* Styles for .envelope-heart, .envelope, .envelope-inner, .envelope-front, .envelope-back, .env-top, .env-bottom, .env-left, .env-right, .env-icon removed as they are no longer used */
         .profile-pic { object-fit: cover; border: 4px solid #4ade80; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
         .cake-container { position: relative; width: 280px; height: 300px; margin: 0 auto; }
         .cake-plate { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 240px; height: 18px; background: linear-gradient(to bottom, #d1fae5, #a7f3d0); border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); z-index: 1; }
@@ -83,8 +65,7 @@
         .cake-drip { position: absolute; width: 18px; height: 27px; background: #ec4899; border-radius: 0 0 8px 8px; }
         .cake-sprinkle { position: absolute; width: 6px; height: 6px; border-radius: 50%; pointer-events: none; z-index: 6; }
         .date-highlight { background: linear-gradient(45deg, #4ade80, #22c55e); -webkit-background-clip: text; background-clip: text; color: transparent; font-weight: bold; }
-        .heart-container { position: relative; margin: 0 auto; }
-        .heart-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 10; }
+        /* .heart-container and .heart-center styles removed as they are no longer used */
 
         /* Loader Styles */
         #loader { position: fixed; inset: 0; background-color: #e0f2fe; z-index: 10000; display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 1; transition: opacity 0.7s ease-out; }
@@ -170,8 +151,8 @@
 
         <!-- STEP 1: WELCOME -->
         <div id="step-welcome" class="step">
-             <header class="text-center mb-8 md:mb-12"> <div class="date-badge inline-block bg-gradient-to-r from-pink-500 to-yellow-500 text-white px-4 py-2 sm:px-6 sm:py-3 rounded-full mb-4 sm:mb-6 shadow-lg"><span class="text-xl sm:text-2xl font-bold">🎂 May 12th 🎂</span></div> <h1 class="text-4xl sm:text-5xl md:text-7xl font-bold text-green-800 mb-4 md:mb-6 floating">Happy 18th Birthday!</h1> <h2 class="text-2xl sm:text-3xl md:text-5xl font-semibold text-green-700">Tlinh 💚</h2> <div class="mt-6 md:mt-8"><p class="text-lg sm:text-xl text-green-600">Celebrating your special day on <span class="date-highlight">May 12th</span>!</p></div> </header>
-             <div class="text-center"><button class="nav-button" onclick="showStep('step-audio')">Hear Your Song! <i class="fas fa-arrow-right ml-2"></i></button></div>
+             <header class="text-center mb-8 md:mb-12"> <div class="date-badge inline-block bg-gradient-to-r from-pink-500 to-yellow-500 text-white px-4 py-2 sm:px-6 sm:py-3 rounded-full mb-4 sm:mb-6 shadow-lg"><span class="text-xl sm:text-2xl font-bold">🎂 May 12th 🎂</span></div> <h1 class="text-4xl sm:text-5xl md:text-7xl font-bold text-green-800 mb-4 md:mb-6 floating">Chúc Mừng Sinh Nhật Tuổi 18</h1> <h2 class="text-2xl sm:text-3xl md:text-5xl font-semibold text-green-700">Tlinh 💚</h2> <div class="mt-6 md:mt-8"><p class="text-lg sm:text-xl text-green-600">Hôm nay là một ngày đặc biệt</p></div> </header>
+             <div class="text-center"><button class="nav-button" onclick="showStep('step-audio')">Tiếp tục<i class="fas fa-arrow-right ml-2"></i></button></div>
         </div>
 
         <!-- STEP 2: AUDIO -->
@@ -189,13 +170,13 @@
             </audio>
             <div class="text-center">
                  <button class="nav-button" style="background-image: linear-gradient(to right, #a7f3d0, #6ee7b7);" onclick="showStep('step-welcome')"><i class="fas fa-arrow-left mr-2"></i> Back</button>
-                 <button class="nav-button ml-4" onclick="showStep('step-cake')">See Your Cake! <i class="fas fa-arrow-right ml-2"></i></button>
+                 <button class="nav-button ml-4" onclick="showStep('step-cake')">Tiếp tục <i class="fas fa-arrow-right ml-2"></i></button>
             </div>
         </div>
 
         <!-- STEP 3: CAKE -->
         <div id="step-cake" class="step">
-            <h3 class="text-3xl md:text-4xl font-semibold text-green-800 mb-6 text-center">Here's Your Cake!</h3>
+            <h3 class="text-3xl md:text-4xl font-semibold text-green-800 mb-6 text-center">Bé My ước rồi thổi nến đi! </h3>
             <div class="flex justify-center mb-12 md:mb-16">
                  <div class="cake-container">
                      <div class="cake-plate"></div>
@@ -216,16 +197,15 @@
             <div class="flex justify-center mb-12 md:mb-16"><button id="blow-btn" class="nav-button"><i class="fas fa-birthday-cake mr-2"></i> Make a Wish & Blow!</button></div>
              <div class="text-center">
                  <button class="nav-button" style="background-image: linear-gradient(to right, #a7f3d0, #6ee7b7);" onclick="showStep('step-audio')"><i class="fas fa-arrow-left mr-2"></i> Back to Song</button>
-                 <!-- REMOVED the "Read Your Message" button -->
-                 <!-- Navigation will now happen via the popup after blowing candles -->
+                 <!-- Navigation to message step will now happen via the popup after blowing candles -->
              </div>
         </div>
 
         <!-- STEP 4: MESSAGE -->
         <div id="step-message" class="step">
-             <div class="max-w-full md:max-w-2xl mx-auto bg-white bg-opacity-90 rounded-xl p-6 md:p-8 shadow-lg mb-8 md:mb-12 text-center border-2 border-green-200"> <h3 class="text-2xl md:text-3xl font-semibold text-green-800 mb-4 md:mb-6">Dear Tlinh,</h3> <p class="text-green-700 mb-4 md:mb-6 text-base md:text-lg">Hope you liked the song and the cake for your 18th birthday on <span class="date-highlight">May 12th</span>! Now it's time for 18 special wishes... But first, let's see a video message.</p> <p class="text-green-700 font-medium text-lg md:text-xl">Wishing you a fantastic year! May <span class="date-highlight">12.05</span> be just the start! 🎉</p> </div>
+             <div class="max-w-full md:max-w-2xl mx-auto bg-white bg-opacity-90 rounded-xl p-6 md:p-8 shadow-lg mb-8 md:mb-12 text-center border-2 border-green-200"> <h3 class="text-2xl md:text-3xl font-semibold text-green-800 mb-4 md:mb-6">Gửi Tlinh,</h3> <p class="text-green-700 mb-4 md:mb-6 text-base md:text-lg">Ngày này vào 18 năm trước, một đóa hoa xinh đẹp được sinh ra, mong răng đóa hoa ấy sẽ sẽ mãi rực rỡ và ngát hương. </p> <p class="text-green-700 font-medium text-lg md:text-xl"></p> </div>
              <div class="bg-white bg-opacity-80 rounded-xl p-4 sm:p-6 max-w-xs sm:max-w-sm md:max-w-md mx-auto shadow-lg text-center mb-12 md:mb-16"> <h3 class="text-xl sm:text-2xl font-semibold text-green-800 mb-4">Celebrating <span class="date-highlight">May 12th</span>!</h3> <div class="flex justify-center space-x-2 sm:space-x-4"> <div class="bg-green-100 rounded-lg p-2 sm:p-3 w-14 sm:w-16"><div class="text-xl sm:text-2xl font-bold text-green-800">18</div><div class="text-xs text-green-600">YEARS</div></div> <div class="bg-green-100 rounded-lg p-2 sm:p-3 w-14 sm:w-16"><div class="text-xl sm:text-2xl font-bold text-green-800">12</div><div class="text-xs text-green-600">MAY</div></div> <div class="bg-green-100 rounded-lg p-2 sm:p-3 w-14 sm:w-16"><div class="text-xl sm:text-2xl font-bold text-green-800">💚</div><div class="text-xs text-green-600">LOVE</div></div> </div> <p class="mt-4 text-sm sm:text-base text-green-700">Your special date: <span class="font-bold date-highlight">May 12th</span></p> </div>
-             <div class="text-center"> <button class="nav-button" style="background-image: linear-gradient(to right, #a7f3d0, #6ee7b7);" onclick="showStep('step-cake')"><i class="fas fa-arrow-left mr-2"></i> Back to Cake</button> <button class="nav-button ml-4" onclick="showStep('step-gallery')">See Video <i class="fas fa-arrow-right ml-2"></i></button> </div>
+             <div class="text-center"> <button class="nav-button" style="background-image: linear-gradient(to right, #a7f3d0, #6ee7b7);" onclick="showStep('step-cake')"><i class="fas fa-arrow-left mr-2"></i> Back to Cake</button> <button class="nav-button ml-4" onclick="showStep('step-gallery')">Tiếp tục <i class="fas fa-arrow-right ml-2"></i></button> </div>
         </div>
 
         <!-- STEP 5: VIDEO MEMORY -->
@@ -235,7 +215,7 @@
                  <p class="text-lg text-green-600 mb-8 text-center">Press play to watch a special message or relive some moments!</p>
                  <div class="max-w-2xl mx-auto">
                      <video controls class="w-full aspect-video bg-black rounded-lg shadow-lg border-2 border-green-200" preload="metadata">
-                          <source src="path/to/your_birthday_video.mp4" type="video/mp4">
+                          <source src="birthday_video.mp4" type="video/mp4">
                           <p class="text-white text-center p-10">Replace the source tag above with your actual video file path!</p>
                           <!-- <source src="path/to/your_birthday_video.webm" type="video/webm"> -->
                           <!-- <source src="path/to/your_birthday_video.ogg" type="video/ogg"> -->
@@ -245,49 +225,19 @@
              </section>
              <div class="text-center">
                  <button class="nav-button" style="background-image: linear-gradient(to right, #a7f3d0, #6ee7b7);" onclick="showStep('step-message')"><i class="fas fa-arrow-left mr-2"></i> Back</button>
-                 <button class="nav-button ml-4" onclick="showStep('step-wishes')">Open Wishes <i class="fas fa-arrow-right ml-2"></i></button>
+                 <button class="nav-button ml-4" onclick="showStep('step-final')">Finish <i class="fas fa-check ml-2"></i></button>
              </div>
         </div>
 
-        <!-- STEP 6: WISHES -->
-         <div id="step-wishes" class="step">
-             <div class="text-center mb-10 md:mb-12"><h3 class="text-3xl md:text-4xl font-semibold text-green-800 mb-4"><i class="fas fa-heart text-pink-500"></i> Heart Full of Wishes! <i class="fas fa-heart text-pink-500"></i></h3><p class="text-lg text-green-600">Click each envelope...</p></div>
-             <div class="heart-container w-full max-w-xs sm:max-w-sm md:max-w-lg lg:max-w-[700px] xl:max-w-[850px] h-[500px] sm:h-[500px] md:h-[550px] mb-16 md:mb-20 mx-auto">
-                <svg viewBox="0 0 200 180" class="absolute inset-0 w-full h-full opacity-10 pointer-events-none" fill="#fbcfe8">
-                  <path d="M100 180 L20 70 Q0 40 20 20 Q40 0 60 20 L100 60 L140 20 Q160 0 180 20 Q200 40 180 70 Z" />
-                </svg>
-                 <div class="heart-center"><div class="bg-white p-1 rounded-full w-28 h-28 sm:w-32 sm:h-32 md:w-40 md:h-40 lg:w-44 lg:h-44 xl:w-[200px] xl:h-[200px]"><img src="https://static.vecteezy.com/system/resources/previews/005/562/361/non_2x/cute-and-kawaii-girl-with-pink-hoodie-bunny-and-cute-rabbit-cartoon-manga-chibi-character-vector.jpg" alt="Tlinh" class="profile-pic w-full h-full rounded-full"></div></div>
-                 <!-- Envelopes 1-18 (Positions remain the same) -->
-                 <div class="envelope-heart w-12 h-8 sm:w-16 sm:h-10 md:w-20 md:h-12" style="top: 8%; left: 38%; z-index: 20;" onclick="openWish(1)"> <div class="envelope w-full h-full relative"><div class="envelope-inner"><div class="envelope-front"><div class="env-top"></div><div class="env-bottom"></div><div class="env-left"></div><div class="env-right"></div><div class="env-icon text-base sm:text-lg md:text-xl"><i class="fas fa-heart"></i></div></div><div class="envelope-back"><p class="text-green-700 text-[8px] sm:text-[10px] md:text-xs font-semibold">Open</p></div></div></div> </div>
-                 <div class="envelope-heart w-12 h-8 sm:w-16 sm:h-10 md:w-20 md:h-12" style="top: 8%; left: 62%; transform: translateX(-100%); z-index: 20;" onclick="openWish(2)"> <div class="envelope w-full h-full relative"><div class="envelope-inner"><div class="envelope-front"><div class="env-top"></div><div class="env-bottom"></div><div class="env-left"></div><div class="env-right"></div><div class="env-icon text-base sm:text-lg md:text-xl"><i class="fas fa-heart"></i></div></div><div class="envelope-back"><p class="text-green-700 text-[8px] sm:text-[10px] md:text-xs font-semibold">Open</p></div></div></div> </div>
-                 <div class="envelope-heart w-12 h-8 sm:w-16 sm:h-10 md:w-20 md:h-12" style="top: 18%; left: 25%; z-index: 20;" onclick="openWish(3)"> <div class="envelope w-full h-full relative"><div class="envelope-inner"><div class="envelope-front"><div class="env-top"></div><div class="env-bottom"></div><div class="env-left"></div><div class="env-right"></div><div class="env-icon text-base sm:text-lg md:text-xl"><i class="fas fa-heart"></i></div></div><div class="envelope-back"><p class="text-green-700 text-[8px] sm:text-[10px] md:text-xs font-semibold">Open</p></div></div></div> </div>
-                 <div class="envelope-heart w-12 h-8 sm:w-16 sm:h-10 md:w-20 md:h-12" style="top: 18%; left: 75%; transform: translateX(-100%); z-index: 20;" onclick="openWish(4)"> <div class="envelope w-full h-full relative"><div class="envelope-inner"><div class="envelope-front"><div class="env-top"></div><div class="env-bottom"></div><div class="env-left"></div><div class="env-right"></div><div class="env-icon text-base sm:text-lg md:text-xl"><i class="fas fa-heart"></i></div></div><div class="envelope-back"><p class="text-green-700 text-[8px] sm:text-[10px] md:text-xs font-semibold">Open</p></div></div></div> </div>
-                 <div class="envelope-heart w-12 h-8 sm:w-16 sm:h-10 md:w-20 md:h-12" style="top: 30%; left: 18%; z-index: 20;" onclick="openWish(5)"> <div class="envelope w-full h-full relative"><div class="envelope-inner"><div class="envelope-front"><div class="env-top"></div><div class="env-bottom"></div><div class="env-left"></div><div class="env-right"></div><div class="env-icon text-base sm:text-lg md:text-xl"><i class="fas fa-heart"></i></div></div><div class="envelope-back"><p class="text-green-700 text-[8px] sm:text-[10px] md:text-xs font-semibold">Open</p></div></div></div> </div>
-                 <div class="envelope-heart w-12 h-8 sm:w-16 sm:h-10 md:w-20 md:h-12" style="top: 30%; left: 82%; transform: translateX(-100%); z-index: 20;" onclick="openWish(6)"> <div class="envelope w-full h-full relative"><div class="envelope-inner"><div class="envelope-front"><div class="env-top"></div><div class="env-bottom"></div><div class="env-left"></div><div class="env-right"></div><div class="env-icon text-base sm:text-lg md:text-xl"><i class="fas fa-heart"></i></div></div><div class="envelope-back"><p class="text-green-700 text-[8px] sm:text-[10px] md:text-xs font-semibold">Open</p></div></div></div> </div>
-                 <div class="envelope-heart w-12 h-8 sm:w-16 sm:h-10 md:w-20 md:h-12" style="top: 45%; left: 12%; z-index: 20;" onclick="openWish(7)"> <div class="envelope w-full h-full relative"><div class="envelope-inner"><div class="envelope-front"><div class="env-top"></div><div class="env-bottom"></div><div class="env-left"></div><div class="env-right"></div><div class="env-icon text-base sm:text-lg md:text-xl"><i class="fas fa-heart"></i></div></div><div class="envelope-back"><p class="text-green-700 text-[8px] sm:text-[10px] md:text-xs font-semibold">Open</p></div></div></div> </div>
-                 <div class="envelope-heart w-12 h-8 sm:w-16 sm:h-10 md:w-20 md:h-12" style="top: 45%; left: 88%; transform: translateX(-100%); z-index: 20;" onclick="openWish(8)"> <div class="envelope w-full h-full relative"><div class="envelope-inner"><div class="envelope-front"><div class="env-top"></div><div class="env-bottom"></div><div class="env-left"></div><div class="env-right"></div><div class="env-icon text-base sm:text-lg md:text-xl"><i class="fas fa-heart"></i></div></div><div class="envelope-back"><p class="text-green-700 text-[8px] sm:text-[10px] md:text-xs font-semibold">Open</p></div></div></div> </div>
-                 <div class="envelope-heart w-12 h-8 sm:w-16 sm:h-10 md:w-20 md:h-12" style="top: 60%; left: 15%; z-index: 20;" onclick="openWish(9)"> <div class="envelope w-full h-full relative"><div class="envelope-inner"><div class="envelope-front"><div class="env-top"></div><div class="env-bottom"></div><div class="env-left"></div><div class="env-right"></div><div class="env-icon text-base sm:text-lg md:text-xl"><i class="fas fa-heart"></i></div></div><div class="envelope-back"><p class="text-green-700 text-[8px] sm:text-[10px] md:text-xs font-semibold">Open</p></div></div></div> </div>
-                 <div class="envelope-heart w-12 h-8 sm:w-16 sm:h-10 md:w-20 md:h-12" style="top: 60%; left: 85%; transform: translateX(-100%); z-index: 20;" onclick="openWish(10)"> <div class="envelope w-full h-full relative"><div class="envelope-inner"><div class="envelope-front"><div class="env-top"></div><div class="env-bottom"></div><div class="env-left"></div><div class="env-right"></div><div class="env-icon text-base sm:text-lg md:text-xl"><i class="fas fa-heart"></i></div></div><div class="envelope-back"><p class="text-green-700 text-[8px] sm:text-[10px] md:text-xs font-semibold">Open</p></div></div></div> </div>
-                 <div class="envelope-heart w-12 h-8 sm:w-16 sm:h-10 md:w-20 md:h-12" style="top: 72%; left: 22%; z-index: 20;" onclick="openWish(11)"> <div class="envelope w-full h-full relative"><div class="envelope-inner"><div class="envelope-front"><div class="env-top"></div><div class="env-bottom"></div><div class="env-left"></div><div class="env-right"></div><div class="env-icon text-base sm:text-lg md:text-xl"><i class="fas fa-heart"></i></div></div><div class="envelope-back"><p class="text-green-700 text-[8px] sm:text-[10px] md:text-xs font-semibold">Open</p></div></div></div> </div>
-                 <div class="envelope-heart w-12 h-8 sm:w-16 sm:h-10 md:w-20 md:h-12" style="top: 72%; left: 78%; transform: translateX(-100%); z-index: 20;" onclick="openWish(12)"> <div class="envelope w-full h-full relative"><div class="envelope-inner"><div class="envelope-front"><div class="env-top"></div><div class="env-bottom"></div><div class="env-left"></div><div class="env-right"></div><div class="env-icon text-base sm:text-lg md:text-xl"><i class="fas fa-heart"></i></div></div><div class="envelope-back"><p class="text-green-700 text-[8px] sm:text-[10px] md:text-xs font-semibold">Open</p></div></div></div> </div>
-                 <div class="envelope-heart w-12 h-8 sm:w-16 sm:h-10 md:w-20 md:h-12" style="top: 83%; left: 30%; z-index: 20;" onclick="openWish(13)"> <div class="envelope w-full h-full relative"><div class="envelope-inner"><div class="envelope-front"><div class="env-top"></div><div class="env-bottom"></div><div class="env-left"></div><div class="env-right"></div><div class="env-icon text-base sm:text-lg md:text-xl"><i class="fas fa-heart"></i></div></div><div class="envelope-back"><p class="text-green-700 text-[8px] sm:text-[10px] md:text-xs font-semibold">Open</p></div></div></div> </div>
-                 <div class="envelope-heart w-12 h-8 sm:w-16 sm:h-10 md:w-20 md:h-12" style="top: 83%; left: 70%; transform: translateX(-100%); z-index: 20;" onclick="openWish(14)"> <div class="envelope w-full h-full relative"><div class="envelope-inner"><div class="envelope-front"><div class="env-top"></div><div class="env-bottom"></div><div class="env-left"></div><div class="env-right"></div><div class="env-icon text-base sm:text-lg md:text-xl"><i class="fas fa-heart"></i></div></div><div class="envelope-back"><p class="text-green-700 text-[8px] sm:text-[10px] md:text-xs font-semibold">Open</p></div></div></div> </div>
-                 <div class="envelope-heart w-12 h-8 sm:w-16 sm:h-10 md:w-20 md:h-12" style="top: 91%; left: 40%; z-index: 20;" onclick="openWish(15)"> <div class="envelope w-full h-full relative"><div class="envelope-inner"><div class="envelope-front"><div class="env-top"></div><div class="env-bottom"></div><div class="env-left"></div><div class="env-right"></div><div class="env-icon text-base sm:text-lg md:text-xl"><i class="fas fa-heart"></i></div></div><div class="envelope-back"><p class="text-green-700 text-[8px] sm:text-[10px] md:text-xs font-semibold">Open</p></div></div></div> </div>
-                 <div class="envelope-heart w-12 h-8 sm:w-16 sm:h-10 md:w-20 md:h-12" style="top: 91%; left: 60%; transform: translateX(-100%); z-index: 20;" onclick="openWish(16)"> <div class="envelope w-full h-full relative"><div class="envelope-inner"><div class="envelope-front"><div class="env-top"></div><div class="env-bottom"></div><div class="env-left"></div><div class="env-right"></div><div class="env-icon text-base sm:text-lg md:text-xl"><i class="fas fa-heart"></i></div></div><div class="envelope-back"><p class="text-green-700 text-[8px] sm:text-[10px] md:text-xs font-semibold">Open</p></div></div></div> </div>
-                 <div class="envelope-heart w-12 h-8 sm:w-16 sm:h-10 md:w-20 md:h-12" style="top: 96%; left: 48%; transform: translateX(-50%); z-index: 20;" onclick="openWish(17)"> <div class="envelope w-full h-full relative"><div class="envelope-inner"><div class="envelope-front"><div class="env-top"></div><div class="env-bottom"></div><div class="env-left"></div><div class="env-right"></div><div class="env-icon text-base sm:text-lg md:text-xl"><i class="fas fa-heart"></i></div></div><div class="envelope-back"><p class="text-green-700 text-[8px] sm:text-[10px] md:text-xs font-semibold">Open</p></div></div></div> </div>
-                 <div class="envelope-heart w-12 h-8 sm:w-16 sm:h-10 md:w-20 md:h-12" style="top: 96%; left: 52%; transform: translateX(-50%); z-index: 20;" onclick="openWish(18)"> <div class="envelope w-full h-full relative"><div class="envelope-inner"><div class="envelope-front"><div class="env-top"></div><div class="env-bottom"></div><div class="env-left"></div><div class="env-right"></div><div class="env-icon text-base sm:text-lg md:text-xl"><i class="fas fa-heart"></i></div></div><div class="envelope-back"><p class="text-green-700 text-[8px] sm:text-[10px] md:text-xs font-semibold">Open</p></div></div></div> </div>
-            </div>
-             <div class="text-center"> <button class="nav-button" style="background-image: linear-gradient(to right, #a7f3d0, #6ee7b7);" onclick="showStep('step-gallery')"><i class="fas fa-arrow-left mr-2"></i> Back</button> <button class="nav-button ml-4" onclick="showStep('step-final')">Finish <i class="fas fa-check ml-2"></i></button> </div>
-         </div>
+        <!-- STEP 6: WISHES (REMOVED) -->
 
-        <!-- STEP 7: FINAL -->
+        <!-- STEP 7: FINAL (Previously Step 7, now effectively Step 6) -->
          <div id="step-final" class="step">
              <footer class="text-center mt-12 mb-6 px-4">
-                <h3 class="text-3xl font-semibold text-green-800 mb-6">That's All For Now!</h3>
-                <p class="text-lg text-green-700 mb-8">Hope you loved your birthday surprise, Tlinh!</p>
-                <p class="text-green-600 text-sm sm:text-base">Made with 💚 by mzooy</p> <!-- Remember to change this! -->
+                <h3 class="text-3xl font-semibold text-green-800 mb-6">Tuổi 18 thiệt là rực rỡ nhé Bé My</h3>
+                <p class="text-green-600 text-sm sm:text-base">Niềm vui của Bé My là lời cảm ơn!</p> <!-- Remember to change this! -->
                 <div class="mt-8">
-                    <button class="nav-button" style="background-image: linear-gradient(to right, #a7f3d0, #6ee7b7);" onclick="showStep('step-wishes')"><i class="fas fa-arrow-left mr-2"></i> Back</button>
+                    <button class="nav-button" style="background-image: linear-gradient(to right, #a7f3d0, #6ee7b7);" onclick="showStep('step-gallery')"><i class="fas fa-arrow-left mr-2"></i> Back</button>
                     <button class="nav-button ml-4" style="background-image: linear-gradient(to right, #fbbf24, #f59e0b);" onclick="showStep('step-welcome')"><i class="fas fa-redo mr-2"></i> Start Over?</button>
                 </div>
              </footer>
@@ -296,26 +246,8 @@
     </div> <!-- End Container -->
 
     <!-- Popups -->
-    <div id="blow-popup" class="modal"><div class="bg-white rounded-xl p-6 sm:p-8 max-w-md w-full relative border-4 border-pink-300"><div class="text-center"><div class="text-5xl sm:text-6xl mb-4 sm:mb-6 text-pink-500">🎉</div><h3 class="text-2xl sm:text-3xl font-bold text-green-800 mb-4">Wish Granted!</h3><p class="text-green-700 mb-6 text-base sm:text-lg">Hope your wish on <span class="date-highlight">May 12th</span> comes true!</p><button id="yay-button" class="nav-button"><i class="fas fa-smile-wink mr-2"></i> Yay! Continue!</button></div></div></div>
-    <!-- Wish Popups (1-18) - Content remains the same -->
-    <div id="wish-popup-1" class="modal"><div class="wish-popup"><button onclick="closeWish(1)" class="close-btn">×</button><div class="icon">💌</div><h3>Wish #1</h3><p>May your 18th year be filled with joy and success!</p></div></div>
-    <div id="wish-popup-2" class="modal"><div class="wish-popup"><button onclick="closeWish(2)" class="close-btn">×</button><div class="icon">💌</div><h3>Wish #2</h3><p>Wishing you endless happiness on your special day!</p></div></div>
-    <div id="wish-popup-3" class="modal"><div class="wish-popup"><button onclick="closeWish(3)" class="close-btn">×</button><div class="icon">💌</div><h3>Wish #3</h3><p>Happy 18th Birthday! May all your dreams take flight.</p></div></div>
-    <div id="wish-popup-4" class="modal"><div class="wish-popup"><button onclick="closeWish(4)" class="close-btn">×</button><div class="icon">💌</div><h3>Wish #4</h3><p>Welcome to adulthood! Enjoy every moment.</p></div></div>
-    <div id="wish-popup-5" class="modal"><div class="wish-popup"><button onclick="closeWish(5)" class="close-btn">×</button><div class="icon">💌</div><h3>Wish #5</h3><p>Hope your birthday is as amazing as you are!</p></div></div>
-    <div id="wish-popup-6" class="modal"><div class="wish-popup"><button onclick="closeWish(6)" class="close-btn">×</button><div class="icon">💌</div><h3>Wish #6</h3><p>Cheers to 18 years and many more to come!</p></div></div>
-    <div id="wish-popup-7" class="modal"><div class="wish-popup"><button onclick="closeWish(7)" class="close-btn">×</button><div class="icon">💌</div><h3>Wish #7</h3><p>May your day be filled with love, laughter, and cake!</p></div></div>
-    <div id="wish-popup-8" class="modal"><div class="wish-popup"><button onclick="closeWish(8)" class="close-btn">×</button><div class="icon">💌</div><h3>Wish #8</h3><p>Wishing you all the best on this milestone birthday!</p></div></div>
-    <div id="wish-popup-9" class="modal"><div class="wish-popup"><button onclick="closeWish(9)" class="close-btn">×</button><div class="icon">💌</div><h3>Wish #9</h3><p>Keep being your awesome self! Happy 18th!</p></div></div>
-    <div id="wish-popup-10" class="modal"><div class="wish-popup"><button onclick="closeWish(10)" class="close-btn">×</button><div class="icon">💌</div><h3>Wish #10</h3><p>Sending you the biggest birthday hug!</p></div></div>
-    <div id="wish-popup-11" class="modal"><div class="wish-popup"><button onclick="closeWish(11)" class="close-btn">×</button><div class="icon">💌</div><h3>Wish #11</h3><p>Hope your 18th year is full of great adventures!</p></div></div>
-    <div id="wish-popup-12" class="modal"><div class="wish-popup"><button onclick="closeWish(12)" class="close-btn">×</button><div class="icon">💌</div><h3>Wish #12</h3><p>May happiness follow you wherever you go.</p></div></div>
-    <div id="wish-popup-13" class="modal"><div class="wish-popup"><button onclick="closeWish(13)" class="close-btn">×</button><div class="icon">💌</div><h3>Wish #13</h3><p>Eighteen looks great on you! Happy Birthday!</p></div></div>
-    <div id="wish-popup-14" class="modal"><div class="wish-popup"><button onclick="closeWish(14)" class="close-btn">×</button><div class="icon">💌</div><h3>Wish #14</h3><p>Wishing you a day as sunny as your smile!</p></div></div>
-    <div id="wish-popup-15" class="modal"><div class="wish-popup"><button onclick="closeWish(15)" class="close-btn">×</button><div class="icon">💌</div><h3>Wish #15</h3><p>Happy 18th! Time to make some amazing memories.</p></div></div>
-    <div id="wish-popup-16" class="modal"><div class="wish-popup"><button onclick="closeWish(16)" class="close-btn">×</button><div class="icon">💌</div><h3>Wish #16</h3><p>May your future be bright and beautiful.</p></div></div>
-    <div id="wish-popup-17" class="modal"><div class="wish-popup"><button onclick="closeWish(17)" class="close-btn">×</button><div class="icon">💌</div><h3>Wish #17</h3><p>Wishing you strength and courage for the road ahead.</p></div></div>
-    <div id="wish-popup-18" class="modal"><div class="wish-popup"><button onclick="closeWish(18)" class="close-btn">×</button><div class="icon">💌</div><h3>Wish #18</h3><p>Happy Birthday, Tlinh! You are truly special!</p></div></div>
+    <div id="blow-popup" class="modal"><div class="bg-white rounded-xl p-6 sm:p-8 max-w-md w-full relative border-4 border-pink-300"><div class="text-center"><div class="text-5xl sm:text-6xl mb-4 sm:mb-6 text-pink-500">🎉</div><h3 class="text-2xl sm:text-3xl font-bold text-green-800 mb-4">Điều ước sẽ thành sự thiệt!</h3><p class="text-green-700 mb-6 text-base sm:text-lg">Mong rằng với nỗ  lực kiên cường, và sự giúp đỡ từ Ngài, bé my sẽ đạt được ước mơ của mình</p><button id="yay-button" class="nav-button"><i class="fas fa-smile-wink mr-2"></i> Yay! Continue!</button></div></div></div>
+    <!-- Wish Popups (1-18) - REMOVED -->
 
 
     <!-- Audio Elements -->
@@ -400,8 +332,7 @@
 
         // Popups
         function closePopup(){log("Close blowpop");const bp=document.getElementById('blow-popup');if(bp)bp.classList.remove('active')}
-        function closeWish(n){log(`Close W${n}`);const wp=document.getElementById(`wish-popup-${n}`),env=document.querySelector(`.envelope-heart[onclick="openWish(${n})"] .envelope`);if(wp)wp.classList.remove('active');if(env)env.classList.remove('open')}
-        function openWish(n){log(`Open W${n}`);const wp=document.getElementById(`wish-popup-${n}`),env=document.querySelector(`.envelope-heart[onclick="openWish(${n})"] .envelope`);if(wp){wp.classList.add('active');if(env)env.classList.add('open');else err(`Env ${n}?`)}else err(`WPop ${n}?`)}
+        // openWish and closeWish functions removed as they are no longer used
 
         // Effects (Confetti, Smoke, Hearts, Sprinkles - remain the same)
         function createConfetti(){try{const c=['#4ade80','#22c55e','#f472b6','#ec4899','#fcd34d','#f59e0b','#86efac','#ecfccb'],o=document.getElementById('confetti-container');if(!o)return;const n=window.innerWidth<768?75:150;for(let i=0;i<n;i++){const e=document.createElement('div');e.className='confetti';e.style.left=Math.random()*100+'vw';e.style.backgroundColor=c[Math.floor(Math.random()*c.length)];e.style.width=Math.random()*8+4+'px';e.style.height=e.style.width;e.style.animationDuration=Math.random()*3+2+'s';e.style.animationDelay=Math.random()*0.5+'s';o.appendChild(e);setTimeout(()=>e?.remove(),5000)}}catch(e){err("FX:Confetti",e)}}
@@ -468,7 +399,7 @@
              // Handle Next Step (Slide In)
              log(` Sliding in: ${id}`);
              if (id === 'step-cake') { resetCakeState(); }
-             else if (id === 'step-wishes') { resetWishesState(); }
+             // else if (id === 'step-wishes') { resetWishesState(); } // Removed resetWishesState call
 
              // Use timeout to ensure previous step starts exiting first
              setTimeout(() => {
@@ -509,17 +440,7 @@
             try { addSprinkles(); } catch (e) { err("FX:Sprinkles on Reset", e); }
         }
 
-        function resetWishesState() {
-             log(" ResetWishes State");
-            const openEnvelopes = document.querySelectorAll('.envelope.open');
-            openEnvelopes.forEach(e => e.classList.remove('open'));
-            log(` Closed ${openEnvelopes.length} envelopes.`);
-            const openPopups = document.querySelectorAll('.modal.active');
-            let closedCount = 0;
-            openPopups.forEach(p => { if (p.id.startsWith('wish-popup-')) { p.classList.remove('active'); closedCount++; } });
-            log(` Closed ${closedCount} wish popups.`);
-        }
-
+        // resetWishesState function removed as it is no longer used
 
         // Init
         function runOnLoad(){
